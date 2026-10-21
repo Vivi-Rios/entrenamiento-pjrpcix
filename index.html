@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Papa Johns · Gestión de Tienda</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+<style>
+:root{--v:#0b6b3a;--vd:#07482a;--r:#c8102e;--a:#f2a900;--g:#6b7280;--bg:#eef3f0}
+body{background:var(--bg);font-family:'Segoe UI',system-ui,sans-serif;color:#1f2a24;font-size:14px}
+/* barra lateral */
+#side{position:fixed;inset:0 auto 0 0;width:250px;background:linear-gradient(180deg,var(--vd),var(--v));color:#fff;display:flex;flex-direction:column;z-index:1040;transition:transform .2s}
+.brand{padding:18px 16px;border-bottom:1px solid #ffffff2e}
+.logo-box{background:#fff;border-radius:10px;padding:8px 12px;text-align:center}
+.logo-box img{height:48px;max-width:100%}.logo-fb{color:var(--r);font-weight:800;letter-spacing:1px}
+.brand small{display:block;margin-top:8px;opacity:.75;text-align:center}
+#menu{padding:14px 10px;display:flex;flex-direction:column;gap:4px}
+#menu button{background:none;border:0;color:#d9efe3;text-align:left;padding:11px 14px;border-radius:8px;font-size:14px}
+#menu button i{margin-right:10px}#menu button:hover{background:#ffffff1f}
+#menu button.on{background:#fff;color:var(--v);font-weight:600}
+.content{margin-left:250px}
+.top{background:#fff;padding:10px 22px;display:flex;align-items:center;gap:12px;border-bottom:1px solid #dce5e0;position:sticky;top:0;z-index:1030}
+.top h5{margin:0;flex:1}#gd{font-size:12px;color:var(--g)}
+main{padding:22px;max-width:1250px;margin:auto}
+@media(max-width:991px){#side{transform:translateX(-100%)}#side.open{transform:none}.content{margin-left:0}}
+/* tarjetas */
+.hero{background:linear-gradient(120deg,var(--vd),var(--v) 60%,#16924f);color:#fff;border-radius:14px;padding:22px 26px}
+.hero-note{margin-top:12px;background:#ffffff26;border-radius:8px;padding:8px 12px;display:inline-block}.hero-note a{color:#fff;font-weight:600}
+.cardx{background:#fff;border-radius:14px;border-top:4px solid var(--v);padding:18px;box-shadow:0 4px 14px #0b3d2320;height:100%;transition:transform .18s,box-shadow .18s}
+.cardx.lift:hover{transform:translateY(-4px);box-shadow:0 12px 26px #0b3d2330}
+.cardx.top-r{border-top-color:var(--r)}.cardx.top-a{border-top-color:var(--a)}
+.cardx.alerta{border-top-color:#d62839;box-shadow:0 6px 20px #d628393a}.cardx.alerta.lift:hover{box-shadow:0 14px 30px #d6283950}
+tr.fila-rojo>td{background:#fff1f2}tr.fila-rojo>td:first-child{box-shadow:inset 4px 0 0 #d62839}
+tr.fila-amb>td{background:#fff8e6}tr.fila-amb>td:first-child{box-shadow:inset 4px 0 0 var(--a)}
+.cardx h6{font-weight:700;margin-bottom:12px}
+.stat{display:flex;align-items:center;gap:14px}.stat .num{font-size:26px;font-weight:700;line-height:1}
+.ico{width:46px;height:46px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:21px;color:#fff}
+.ico.v{background:var(--v)}.ico.r{background:var(--r)}.ico.a{background:var(--a);color:#222}
+.li{display:flex;justify-content:space-between;align-items:center;padding:9px 0;border-bottom:1px solid #edf1ee}.li:last-child{border:0}
+/* etiquetas y barras */
+.b{display:inline-block;padding:3px 10px;border-radius:12px;color:#fff;font-size:12px;white-space:nowrap;margin:1px}
+.rojo{background:#d62839}.amb{background:var(--a);color:#222}.verde{background:#1f9d55}.gris{background:var(--g)}.azul{background:#2f6fa8}
+.bar{background:#e3e9e5;border-radius:6px;height:9px;overflow:hidden;min-width:70px}.bar i{display:block;height:100%;background:var(--v)}
+.btn-pj{background:var(--v);border-color:var(--v);color:#fff}.btn-pj:hover{background:var(--vd);border-color:var(--vd);color:#fff}
+details{border:1px solid #dde5e0;border-radius:8px;margin:8px 0;padding:8px 12px;background:#fff}
+summary{cursor:pointer;font-weight:600}details[open]>summary{margin-bottom:6px}
+th{font-size:12px;color:var(--g);font-weight:600}
+</style></head><body>
+<div id="side">
+ <div class="brand"><div class="logo-box"><img src="https://logos-marcas.com/wp-content/uploads/2022/01/Papa-Johns-Pizza-Logo.png" alt="Papa Johns" onerror="this.outerHTML='<b class=logo-fb>PAPA JOHNS</b>'"></div><small>Gestión de tienda</small></div>
+ <nav id="menu"></nav>
+</div>
+<div class="content">
+ <header class="top">
+  <button class="btn btn-light d-lg-none" onclick="$('#side').classList.toggle('open')"><i class="bi bi-list"></i></button>
+  <h5 id="ttl"></h5><span id="gd"></span>
+  <button class="btn btn-outline-secondary btn-sm" onclick="bajar()"><i class="bi bi-download"></i> Descargar respaldo</button>
+  <button class="btn btn-outline-secondary btn-sm" onclick="$('#fi').click()"><i class="bi bi-upload"></i> Restaurar</button>
+  <input type="file" id="fi" accept=".json" hidden onchange="subir(this)">
+ </header>
+ <main></main>
+</div>
+
+<!-- Ventana emergente de colaborador -->
+<div class="modal fade" id="mCol" tabindex="-1"><div class="modal-dialog modal-lg modal-dialog-centered"><div class="modal-content">
+ <div class="modal-header"><h5 class="modal-title" id="mTit"></h5><button type="button" class="btn-close" data-bs-dismiss="modal"></button></div>
+ <div class="modal-body"><div class="row g-3">
+  <div class="col-md-6"><label class="form-label">Nombres</label><input id="f_nom" class="form-control"></div>
+  <div class="col-md-6"><label class="form-label">Apellidos</label><input id="f_ape" class="form-control"></div>
+  <div class="col-md-6"><label class="form-label">Cargo</label><select id="f_car" class="form-select"></select></div>
+  <div class="col-md-6"><label class="form-label">Jornada</label><select id="f_jor" class="form-select"><option>Full Time</option><option>Part Time</option></select></div>
+  <div class="col-md-4"><label class="form-label">DNI</label><input id="f_dni" class="form-control"></div>
+  <div class="col-md-4"><label class="form-label">Password PTT</label><input id="f_pas" class="form-control"></div>
+  <div class="col-md-4"><label class="form-label">Código Caja</label><input id="f_caj" class="form-control"></div>
+  <div class="col-md-3"><label class="form-label">Cumpleaños (día)</label><select id="f_dia" class="form-select"></select></div>
+  <div class="col-md-5"><label class="form-label">Cumpleaños (mes)</label><select id="f_mes" class="form-select"></select></div>
+ </div></div>
+ <div class="modal-footer"><button class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancelar</button><button class="btn btn-pj" onclick="gCol()">Guardar</button></div>
+</div></div></div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
+<script>
+
+// ===== Datos fijos =====
+const CARGOS=['Team Member','Experto','Master Trainer','Líder de Entrenamiento','Asistente de Tienda','Gerente de Tienda'];
+const EXCL=['Asistente de Tienda','Gerente de Tienda']; // estos cargos no cuentan en los reportes PTT
+const AP={T:CARGOS.slice(0,4),E:['Experto'],M:['Master Trainer','Líder de Entrenamiento'],L:['Líder de Entrenamiento']};
+const APN={T:'Todos',E:'Solo Experto',M:'Master Trainer y Líder',L:'Solo Líder'};
+// Escuelas: "nombre|quién la lleva|curso;curso"
+const ESC0=[
+"Inducción Corporativa|T|Inducción de Seguridad y Salud en el Trabajo;Inducción al puesto de trabajo de SST - PJ;Inducción de prevención del Hostigamiento Sexual Laboral - PJ;Entrenamiento de Brigadas de Emergencia;BPM",
+"RIT & Código de Ética Papa Johns|T|RIT & Código de ética Papa Johns",
+"Pack Gestión de Riesgos de SST|T|Alerta Segura - 2026 (tiendas);IPERC (Identificación de Peligros y Evaluación de Riesgos y Controles) - (tiendas) 2026;Medida de control EPP´s - 2026;Riesgo eléctrico - 2026;Riesgo de quemaduras - 2026;Riesgo de cortes - 2026;Riesgo de caídas, tropiezos, resbalones y uso correcto de escaleras portátiles - 2026;Riesgo al contacto o por exposición con sustancias peligrosas - 2026;Riesgos externos a los que podríamos estar expuestos – 2026",
+"Procesos Papa Johns|T|Máquina roladora;TPM Hornos;Medias porciones;Bordes rellenos de queso;Bandejas incompletas;Redención de cupones The Voice;Impresión de boletas masivas;Control de tiempos - Equipos de retención de calor;Procedimiento de corte de pimiento y cebolla",
+"Entrenamiento a Tiendas - Delivery Central 2024|T|Inicio y fin de turno de driver;Uso de la tablet: Gestión de órdenes y anulaciones;Proceso de cobro y cambio de forma de pago (CFP)",
+"Sostenibilidad|T|Sostenibilidad NGR",
+"Seguridad Eléctrica Papa Johns|T|Introducción Seguridad Eléctrica;Conceptos y Componentes;Interruptor Diferencial;Interruptor Termomagnético;Corto Circuito vs. Sobrecarga;Estructura Del Tablero;Puesta De Pozo A Tierra;Malas Prácticas vs. Buenas Prácticas",
+"Cuenta TRES|T|Rompiendo con los Sesgos Inconscientes",
+"Escuela de Riesgos y Control Interno|T|Sistema de Prevención contra la Corrupción NGR",
+"Complementos PJ|T|Rollitos De Manjar;Nuditos De Ajo X4 Unidades;Horneado De Alitas De Pollo;Palitos A La Parmesana X3",
+"Pack SST – 2026|T|Reglamento Interno de Seguridad y Salud en el Trabajo - 2026;Entrega del Reglamento Interno de Seguridad y Salud en el Trabajo - 2026 (Papa John´s);Plan de Contingencia - 2026;Salud mental - 2026;Ergonomía Laboral - 2026;Prevención de Hostigamiento Sexual Laboral 2026 - Colaboradores(as)",
+"PEPE - Team Member (PJ)|T|Manejo de masa;Manejo del queso;Colocación de ingredientes;Cultura de servicio;Preparación de ingredientes;BPM / Seguridad Alimentaria / PHS;Examen de conocimientos generales PEPE;Checklist",
+"NGR Academy|T|Gestión emocional y Trabajo bajo presión;Experiencia al Cliente;Rol del Entrenador;Entrenador de Turno",
+"Nuevos Lanzamientos e Innovaciones|T|Masa Delgada Crusty;Nuevos Procesos De Redención De Vales Y Cupones;Papa Box Mediano;Share Box;Papacono;Empapanadas;Super Pizzas;Pizzas Yape",
+"Programa de Uso y Mantenimiento de la Trampa de Grasa y Sumidero|T|Recertificación TRAMPA DE GRASA;Recertificación SUMIDERO",
+"Línea de Carrera - Experto (PJ)|E|Manejo De Quejas Y Conflictos;Feedback;Trabajo En Equipo;Runner Delivery;Examen De Conocimiento Generales - Línea De Carrera Experto;Cuidado Del Horno;Evaluación De Cursos Experto",
+"Línea de Carrera Papa Johns - Master Trainer|M|Metodología de entrenamiento",
+"Línea de Carrera - Coordinador de Delivery (PJ)|L|Examen - Coordinador de Delivery;Rol de Coordinador de Delivery;Inducción - Coordinador de Delivery;Gestión de Personas;Indicadores Coordinador de Delivery;Taller Torre de Control Day",
+"Élite|L|Seguridad Alimentaria NGR;Gestión Integral de la Seguridad;Herramientas para la Operación - SIAN y QIMI NGR;Gestión de Dinero: Cuadre de Caja y Remesas NGR;Herramientas para la operación: SAP;Sistema de marcación: Optimus;Herramientas de Clima Laboral;Herramientas de Entrenamiento y Desarrollo;Manejo y gestión de autoridades;Gestión de inventarios;Manual de Situaciones Críticas con Clientes;Control de Turno y Gerente al Frente;Gestión de Canales;Food cost & Labor;Estrategias de Desarrollo y Clima"];
+// Entrenamiento: "área|bloque|tema;tema" (solo Servicio y Producción)
+const TR=[
+"Servicio|Papa Pasión|Cliente, razón de ser;Pasión por servir;Tipos de clientes;Conectar con los clientes;Viviendo la Papa Pasión",
+"Servicio|Atención en Counter|Bienvenida del cliente;Toma del pedido;Venta sugestiva;Confirmación del pedido;Cierre del pedido",
+"Servicio|Blaster|Lectura general del blaster;Colocación de blaster pickup;Colocación de blaster salón;Abastecimiento de blastera",
+"Servicio|Atención en Comedor|Bienvenida del cliente;Preparación del salón;Armado de la mesa;Entrega del pedido;Despedida del cliente",
+"Servicio|Manejo de Reclamos|Manejo del libro de reclamos;Solución reclamo por calidad;Solución reclamo por tiempo;Reclamo por imprecisión;Reclamo por desatención",
+"Producción|Masa|Recepción de masa;Almacenamiento de masa;Reboleo de masa;Rotación de masa;Plan de 3 días de la masa;Consumo de masa x hora;Ventana de masa;Zona de fermentación;Bandejas mixtas;Tamaños y uso de la masa;Fundamentos de la masa;Control de temperaturas;Empujado de masa;Los 12 pasos de la masa;Preps de masa;Posición de manos;Refuerzo de roll back;Masa sobrelevada",
+"Producción|Salsa|Preparación de salsas;Porciones de salsas;Uso de los cucharones;Técnica de distribución",
+"Producción|Línea|Varianza de consumo;Preparación de vegetales;Preparación de cárnicos;Procedimiento de fechado;Organización de la línea;Uso de ayudas visuales;Uso de los cups;Porciones de ingredientes;Código de ingredientes;Técnicas de presión;Distribución de ingredientes;Técnica del reloj",
+"Producción|Queso|Recepción y almacenamiento;Fechado del queso;Plan de 3 días del queso;Flopeo de queso;Tipos de queso;Porciones de queso;Técnica de porcionamiento;Distribución de queso;Bampeo del kds;Reciclado del queso",
+"Producción|Horno|Encendido y apagado de horno;Medir tiempo de la correa;Etapas de cocción del horno;Extra cocción de pizzas;Uso del tenedor de calidad;Calentar un producto;Masa precocida;Sensor del horno;Verificar calibración;Calendario de limpieza",
+"Producción|Mesa de Corte|Sacar un producto del horno;Cortes simétricos de pizzas;Uso de los cortadores;Uso de las cajas;Uso de pinza/papel manteca;Decoración de postre;Corte de pizza pepperoni;Corrección del producto;Empaque de complementos;Empaque de pizzas",
+"Producción|Complementos|Nuditos al ajo/Wraps;Mini palitos a la parmesana;Mini cheesesticks;Pepperoni/Jamón rolls;Mini crostini/Fugazza;Calzone/Papadias;Rollitos de canela/oreo/twist;Fugazza/Crostini;Alitas/Poppers;Chicken poppers;Preps de complementos;Chessesticks"
+].map(s=>{const[a,b,t]=s.split('|');return{a,b,t:t.split(';')}});
+
+// ===== Estado y guardado automático =====
+const $=s=>document.querySelector(s),uid=()=>Math.random().toString(36).slice(2,9);
+const h=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const semilla=()=>ESC0.map(s=>{const[n,ap,c]=s.split('|');return{id:uid(),n,ap,cur:c.split(';').map(x=>({id:uid(),n:x}))}});
+let S;try{S=JSON.parse(localStorage.getItem('pj'))}catch(e){}
+S=S||{col:[],car:{},ent:{},ptt:{},esc:semilla(),resp:null};
+let V='res',Q='',ED=null,SH=false,ME='gen',M='rep',SEL=null,SELE=null,FC='',FT='',FP=false;const OP=new Set();
+function save(){try{localStorage.setItem('pj',JSON.stringify(S));$('#gd').textContent='Guardado '+new Date().toLocaleTimeString('es-PE',{hour:'2-digit',minute:'2-digit'})}catch(e){$('#gd').textContent='No se pudo guardar, descarga un respaldo'}}
+const go=()=>{save();render()};
+const op=(el,k)=>el.open?OP.add(k):OP.delete(k);
+
+// ===== Fechas =====
+const ymd=d=>d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
+const hoy=()=>ymd(new Date());
+const pd=s=>{const[a,b,c]=s.split('-').map(Number);return new Date(a,b-1,c)};
+const dias=s=>Math.round((pd(s)-pd(hoy()))/864e5);
+function suma6(s){ // emisión + 6 meses de calendario (ajusta fin de mes)
+ const d=pd(s),m=d.getMonth()+6,y=d.getFullYear()+Math.floor(m/12),mm=m%12;
+ return ymd(new Date(y,mm,Math.min(d.getDate(),new Date(y,mm+1,0).getDate())))}
+function diasCumple(s){const p=s.split('-').map(Number),m=p[p.length-2],d=p[p.length-1],t=pd(hoy());let n=new Date(t.getFullYear(),m-1,d);if(n<t)n=new Date(t.getFullYear()+1,m-1,d);return Math.round((n-t)/864e5)}
+function estCar(id){
+ const c=S.car[id];if(!c)return{d:null,c:'gris',t:'Sin carnet'};
+ const v=suma6(c.em),d=dias(v);
+ return{v,d,c:d<=7?'rojo':d<=14?'amb':'verde',t:d<0?'Venció hace '+(-d)+' d':d==0?'Vence hoy':d+' días'}}
+
+// ===== Utilidades =====
+const bar=p=>`<div class="bar"><i style="width:${p}%"></i></div>`;
+const bd=(c,t)=>`<span class="b ${c}">${t}</span>`;
+const nom=c=>c.nom+' '+c.ape,pn=c=>c.nom.split(' ')[0];
+const act=()=>S.col.filter(c=>c.act!==false);
+const pasa=c=>(nom(c)+' '+(c.dni||'')).toLowerCase().includes(Q.toLowerCase());
+const buscador=()=>`<input id="q" class="form-control" style="max-width:320px" placeholder="Buscar por nombre o DNI" value="${h(Q)}" oninput="Q=this.value;render();const i=$('#q');i.focus();i.setSelectionRange(99,99)">`;
+const ir=k=>{V=k;Q='';ED=null;render()};
+
+// ===== PTT: cálculos =====
+const cuenta=c=>c.act!==false&&!EXCL.includes(c.cargo); // exclusión automática de Asistente y Gerente
+const hecho=(c,k)=>S.ptt[c.id]&&S.ptt[c.id][k];
+const pend=c=>S.esc.some(e=>AP[e.ap].includes(c.cargo)&&e.cur.some(k=>!hecho(c,k.id)));
+function pctEsc(e,pop){let t=0,x=0;pop.forEach(c=>{if(!AP[e.ap].includes(c.cargo))return;e.cur.forEach(k=>{t++;if(hecho(c,k.id))x++})});return{t,x,p:t?Math.round(x*100/t):0}}
+function pctTot(pop){let t=0,x=0;S.esc.forEach(e=>{const r=pctEsc(e,pop);t+=r.t;x+=r.x});return{t,x,p:t?Math.round(x*100/t):0}}
+function poblacion(filtrar){
+ let L=S.col.filter(cuenta);
+ if(filtrar){L=L.filter(pasa);if(FC)L=L.filter(c=>c.cargo==FC);if(FT)L=L.filter(c=>c.jor==FT);if(FP)L=L.filter(pend)}
+ return L}
+
+// ===== Entrenamiento: cálculos =====
+const pb=(id,i)=>{const e=S.ent[id]||{};return Math.round(TR[i].t.filter((_,j)=>e[i+'.'+j]).length*100/TR[i].t.length)};
+function pa(id,a){let n=0,T=0;const e=S.ent[id]||{};TR.forEach((b,i)=>{if(b.a==a)b.t.forEach((_,j)=>{T++;if(e[i+'.'+j])n++})});return Math.round(n*100/T)}
+
+// ===== Pantallas =====
+const TIT={res:'Resumen',col:'Colaboradores',car:'Carnet de Sanidad',ent:'Entrenamiento',ptt:'Cursos PTT'};
+const ICO={res:'grid-1x2',col:'people',car:'heart-pulse',ent:'mortarboard',ptt:'journal-check'};
+const MESES=['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
+const ic=n=>`<i class="bi bi-${n}"></i>`;
+const fmtF=s=>s.split('-').reverse().join('/'); // AAAA-MM-DD -> DD/MM/AAAA
+const fmtCum=s=>{const p=s.split('-');return p[p.length-1]+'/'+p[p.length-2]};
+const VERDE='#0b6b3a';
+
+// ===== Alertas SweetAlert =====
+const toast=(t,i='success')=>Swal.fire({toast:true,position:'top-end',icon:i,title:t,showConfirmButton:false,timer:2400});
+const aviso=(t,x)=>Swal.fire({icon:'warning',title:t,text:x,confirmButtonColor:VERDE});
+const conf=(t,x='')=>Swal.fire({title:t,text:x,icon:'question',showCancelButton:true,confirmButtonText:'Sí, continuar',cancelButtonText:'Cancelar',confirmButtonColor:VERDE}).then(r=>r.isConfirmed);
+
+function render(){
+ $('#menu').innerHTML=Object.keys(TIT).map(k=>`<button class="${V==k?'on':''}" onclick="ir('${k}')">${ic(ICO[k])}${TIT[k]}</button>`).join('');
+ $('#ttl').textContent=TIT[V];
+ $('main').innerHTML={res:vRes,col:vCol,car:vCar,ent:vEnt,ptt:vPtt}[V]();
+ $('#side').classList.remove('open');if(V=='res')grafico()}
+
+function vRes(){
+ const a=act(),pop=poblacion(),g=pctTot(pop);
+ const cs=a.map(c=>({c,e:estCar(c.id)})).filter(x=>x.e.d!==null&&x.e.d<=14).sort((x,y)=>x.e.d-y.e.d);
+ const sin=a.filter(c=>!S.car[c.id]).length;
+ const cu=a.filter(c=>c.cum).map(c=>({c,d:diasCumple(c.cum)})).filter(x=>x.d<=7).sort((x,y)=>x.d-y.d);
+ const dr=S.resp?Math.round((pd(hoy())-pd(S.resp))/864e5):null;
+ const bajos=S.esc.map(e=>({e,r:pctEsc(e,pop)})).filter(x=>x.r.t>0).sort((x,y)=>x.r.p-y.r.p).slice(0,5);
+ const fecha=new Date().toLocaleDateString('es-PE',{weekday:'long',day:'numeric',month:'long',year:'numeric'});
+ const st=(i,c,n,t,x='')=>`<div class="col-6 col-xl-3"><div class="cardx lift stat top-${c} ${x}"><span class="ico ${c}">${ic(i)}</span><div><div class="num">${n}</div><small class="text-muted">${t}</small></div></div></div>`;
+ return `<div class="hero mb-3"><h4 class="mb-1">Panel de la tienda</h4><div style="opacity:.8;text-transform:capitalize">${fecha}</div>
+ ${dr===null||dr>=7?`<div class="hero-note">${ic('exclamation-triangle')} ${dr===null?'Todavía no descargas ningún respaldo.':'Hace '+dr+' días que no descargas un respaldo.'} <a href="#" onclick="bajar();return false">Descargar ahora</a></div>`:''}</div>
+ <div class="row g-3 mb-3">${st('people','v',a.length,'Colaboradores activos')}${st('heart-pulse','r',cs.length,'Carnets por atender',cs.length?'alerta':'')}${st('gift','a',cu.length,'Cumpleaños esta semana')}${st('journal-check','v',g.p+'%','Cursos PTT de la tienda')}</div>
+ <div class="row g-3 mb-3"><div class="col-lg-5"><div class="cardx lift"><h6>Avance de cursos PTT ${bd(g.p>=100?'verde':g.p>0?'amb':'gris',g.p+'%')}</h6>
+ ${g.t?`<div style="height:250px"><canvas id="gPie"></canvas></div><small class="text-muted d-block text-center mt-2">${g.x} de ${g.t} cursos completados en la tienda</small>`:'<span class="text-muted">Agrega colaboradores para ver el gráfico.</span>'}</div></div>
+ <div class="col-lg-7"><div class="cardx lift"><h6>Escuelas con menor avance</h6>
+ ${bajos.length?bajos.map(x=>`<div class="mb-3"><div class="d-flex justify-content-between"><span>${h(x.e.n)}</span><b>${x.r.p}%</b></div>${bar(x.r.p)}</div>`).join(''):'<span class="text-muted">Agrega colaboradores para ver el avance.</span>'}</div></div></div>
+ <div class="row g-3"><div class="col-lg-7"><div class="cardx lift ${cs.length?'alerta':''}"><h6>Carnets de sanidad por vencer</h6>
+ ${cs.length?cs.map(x=>`<div class="li"><span><b>${h(pn(x.c))}</b> <small class="text-muted">${h(x.c.cargo)}</small></span>${bd(x.e.c,x.e.t)}</div>`).join(''):'<span class="text-muted">Ningún carnet por vencer.</span>'}
+ ${sin?`<small class="text-muted d-block mt-2">${sin} colaborador(es) sin carnet registrado</small>`:''}</div></div>
+ <div class="col-lg-5"><div class="cardx lift top-a"><h6>Cumpleaños de los próximos 7 días</h6>
+ ${cu.length?cu.map(x=>`<div class="li"><span>${ic('gift-fill').replace('<i ','<i style="color:var(--r)" ')} <b>${h(pn(x.c))}</b> <small class="text-muted">${fmtCum(x.c.cum)}</small></span>${bd('verde',x.d==0?'Hoy':x.d==1?'Mañana':'En '+x.d+' días')}</div>`).join(''):'<span class="text-muted">Sin cumpleaños esta semana.</span>'}</div></div></div>`}
+
+// Gráfico de torta: cursos completados vs pendientes (Chart.js)
+let GR=null;
+function grafico(){
+ const c=$('#gPie');if(!c)return;
+ if(GR){GR.destroy();GR=null}
+ if(typeof Chart==='undefined'){c.parentElement.innerHTML='<span class="text-muted">No se pudo cargar Chart.js. Revisa tu conexión a internet.</span>';return}
+ const g=pctTot(poblacion());
+ GR=new Chart(c,{type:'pie',
+  data:{labels:['Completados ('+g.x+')','Pendientes ('+(g.t-g.x)+')'],datasets:[{data:[g.x,g.t-g.x],backgroundColor:['#0b6b3a','#c8102e'],borderColor:'#fff',borderWidth:3}]},
+  options:{maintainAspectRatio:false,plugins:{legend:{position:'bottom'}}}})}
+
+function vCol(){
+ // orden por cargo: Gerente, Asistente, Líder, Master Trainer, Experto, Team Member (y por nombre dentro de cada cargo)
+ const L=S.col.filter(pasa).sort((x,y)=>CARGOS.indexOf(y.cargo)-CARGOS.indexOf(x.cargo)||nom(x).localeCompare(nom(y)));
+ return `<div class="cardx"><div class="d-flex flex-wrap gap-2 mb-3 align-items-center">${buscador()}
+ <div class="ms-auto d-flex gap-2"><button class="btn btn-outline-secondary" onclick="importar()">${ic('file-earmark-spreadsheet')} Importar desde Excel</button>
+ <button class="btn btn-pj" onclick="abrirCol(null)">${ic('person-plus')} Nuevo colaborador</button></div></div>
+ <div class="table-responsive"><table class="table table-hover align-middle"><thead><tr><th>Nombre</th><th>Cargo</th><th>Jornada</th><th>DNI</th><th>Password PTT</th><th>Código Caja</th><th>Cumpleaños</th><th></th></tr></thead><tbody>
+ ${L.map(c=>`<tr style="${c.act===false?'opacity:.5':''}"><td><b>${h(nom(c))}</b>${c.act===false?' <small>(inactivo)</small>':''}</td><td>${h(c.cargo)}</td><td>${bd(c.jor=='Part Time'?'gris':'azul',h(c.jor||'Full Time'))}</td>
+ <td>${h(c.dni)}</td><td>${h(c.pas)}</td><td>${h(c.caj)}</td>
+ <td>${c.cum?fmtCum(c.cum):''} ${c.cum&&c.act!==false&&diasCumple(c.cum)<=7?ic('gift-fill').replace('<i ','<i style="color:var(--r)" title="Cumpleaños esta semana" '):''}</td>
+ <td class="text-nowrap"><button class="btn btn-sm btn-outline-secondary" title="Editar" onclick="abrirCol('${c.id}')">${ic('pencil')}</button>
+ <button class="btn btn-sm btn-outline-secondary" title="${c.act===false?'Activar':'Inactivar'}" onclick="inact('${c.id}')">${ic(c.act===false?'person-check':'person-dash')}</button>
+ <button class="btn btn-sm btn-outline-danger" title="Eliminar" onclick="delCol('${c.id}')">${ic('trash')}</button></td></tr>`).join('')||'<tr><td colspan="8" class="text-muted">Aún no hay colaboradores. Usa el botón Nuevo colaborador.</td></tr>'}
+ </tbody></table></div></div>`}
+
+function vCar(){
+ const L=act().filter(pasa).map(c=>({c,e:estCar(c.id)})).sort((x,y)=>(x.e.d??9999)-(y.e.d??9999));
+ return `<div class="cardx"><div class="mb-3">${buscador()}</div><div class="table-responsive"><table class="table align-middle"><thead><tr><th>Colaborador</th><th>Emisión</th><th>Vencimiento (+6 meses)</th><th>Estado</th><th>Fecha de emisión nueva</th><th></th></tr></thead><tbody>
+ ${L.map(({c,e})=>`<tr class="${e.c=='rojo'?'fila-rojo':e.c=='amb'?'fila-amb':''}"><td><b>${h(nom(c))}</b><br><small class="text-muted">${h(c.cargo)}</small></td><td>${S.car[c.id]?fmtF(S.car[c.id].em):'-'}</td><td>${e.v?fmtF(e.v):'-'}</td><td>${bd(e.c,e.t)}</td>
+ <td style="min-width:170px"><input type="date" class="form-control form-control-sm" id="d_${c.id}" value="${hoy()}"></td>
+ <td><button class="btn btn-sm btn-pj" title="${S.car[c.id]&&S.car[c.id].hist.length?'Emisiones anteriores: '+S.car[c.id].hist.map(fmtF).join(', '):''}" onclick="renovar('${c.id}')">${S.car[c.id]?'Renovar':'Registrar'}</button></td></tr>`).join('')||'<tr><td colspan="6" class="text-muted">No hay colaboradores activos.</td></tr>'}
+ </tbody></table></div>
+ <div class="mt-2"><small class="text-muted">${bd('rojo','Rojo')} vencido o hasta 7 días &nbsp; ${bd('amb','Ámbar')} de 8 a 14 días &nbsp; ${bd('verde','Verde')} vigente. Fecha de hoy: ${fmtF(hoy())}</small></div></div>`}
+
+function vEnt(){
+ const tabs=`<div class="d-flex gap-2 mb-3"><button class="btn ${ME=='gen'?'btn-pj':'btn-outline-secondary'}" onclick="ME='gen';render()">${ic('table')} Vista general</button><button class="btn ${ME=='ind'?'btn-pj':'btn-outline-secondary'}" onclick="ME='ind';render()">${ic('person-check')} Ficha individual</button></div>`;
+ const col=i=>i>=100?'verde':i>0?'amb':'gris';
+ if(ME=='gen')return tabs+`<div class="cardx"><div class="mb-3">${buscador()}</div><div class="table-responsive"><table class="table align-middle"><thead><tr><th>Colaborador</th><th style="width:140px">Servicio</th><th style="width:140px">Producción</th><th>Detalle por módulo</th></tr></thead><tbody>
+ ${act().filter(pasa).map(c=>`<tr><td><b>${h(nom(c))}</b><br><small class="text-muted">${h(c.cargo)}</small></td><td>${pa(c.id,'Servicio')}%${bar(pa(c.id,'Servicio'))}</td><td>${pa(c.id,'Producción')}%${bar(pa(c.id,'Producción'))}</td>
+ <td>${TR.map((b,i)=>bd(col(pb(c.id,i)),h(b.b)+' '+pb(c.id,i)+'%')).join('')}</td></tr>`).join('')||'<tr><td colspan="4" class="text-muted">Sin colaboradores.</td></tr>'}</tbody></table></div></div>`;
+ const L=act().filter(pasa).sort((x,y)=>nom(x).localeCompare(nom(y))),c=L.find(x=>x.id==SELE)||L[0];
+ return tabs+`<div class="cardx"><div class="d-flex flex-wrap gap-2 mb-3">${buscador()}<select class="form-select" style="max-width:320px" onchange="SELE=this.value;render()">${L.map(x=>`<option value="${x.id}" ${c&&x.id==c.id?'selected':''}>${h(nom(x))}</option>`).join('')}</select></div>
+ ${c?`<div class="row g-3 mb-2"><div class="col-md-6"><b>Servicio ${pa(c.id,'Servicio')}%</b>${bar(pa(c.id,'Servicio'))}</div><div class="col-md-6"><b>Producción ${pa(c.id,'Producción')}%</b>${bar(pa(c.id,'Producción'))}</div></div>
+ ${TR.map((b,i)=>`<details ${OP.has('b'+i)?'open':''} ontoggle="op(this,'b${i}')"><summary>${b.a} - ${h(b.b)} (${pb(c.id,i)}%)</summary>
+ ${b.t.map((t,j)=>`<div class="form-check"><input class="form-check-input" type="checkbox" id="e${i}_${j}" ${(S.ent[c.id]||{})[i+'.'+j]?'checked':''} onchange="tgE('${c.id}','${i}.${j}')"><label class="form-check-label" for="e${i}_${j}">${h(t)}</label></div>`).join('')}
+ <div class="mt-2"><button class="btn btn-sm btn-pj" onclick="mkB('${c.id}',${i},1)">Marcar todo</button> <button class="btn btn-sm btn-outline-secondary" onclick="mkB('${c.id}',${i},0)">Quitar todo</button></div></details>`).join('')}`:'<span class="text-muted">Agrega colaboradores primero.</span>'}</div>`}
+
+function vPtt(){
+ const b=(k,i,t)=>`<button class="btn ${M==k?'btn-pj':'btn-outline-secondary'}" onclick="M='${k}';render()">${ic(i)} ${t}</button>`;
+ return `<div class="d-flex flex-wrap gap-2 mb-3">${b('rep','bar-chart-line','Reporte de la tienda')}${b('col','check2-square','Marcar por colaborador')}${b('gest','gear','Gestionar escuelas y cursos')}</div>`+(M=='rep'?pRep():M=='col'?pCol():pGest())}
+
+function pRep(){
+ const pop=poblacion(true),g=pctTot(pop);
+ return `<div class="cardx mb-3"><div class="d-flex flex-wrap gap-2 align-items-center mb-2">${buscador()}
+ <select class="form-select" style="max-width:210px" onchange="FC=this.value;render()"><option value="">Todos los cargos</option>${CARGOS.filter(c=>!EXCL.includes(c)).map(c=>`<option ${FC==c?'selected':''}>${c}</option>`).join('')}</select>
+ <select class="form-select" style="max-width:170px" onchange="FT=this.value;render()"><option value="">Toda jornada</option><option ${FT=='Full Time'?'selected':''}>Full Time</option><option ${FT=='Part Time'?'selected':''}>Part Time</option></select>
+ <div class="form-check"><input class="form-check-input" type="checkbox" id="fp" ${FP?'checked':''} onchange="FP=this.checked;render()"><label class="form-check-label" for="fp">Solo con cursos pendientes</label></div></div>
+ <small class="text-muted">Solo cuentan Team Member, Experto, Master Trainer y Líder; Asistentes y Gerentes se excluyen automáticamente. Colaboradores en el reporte: ${pop.length}</small>
+ <div class="d-flex align-items-center gap-3 mt-2"><div style="font-size:28px;font-weight:700">${g.p}%</div><div style="flex:1">${bar(g.p)}</div></div></div>`+S.esc.map(e=>{
+  const r=pctEsc(e,pop),el=pop.filter(c=>AP[e.ap].includes(c.cargo));
+  return `<details ${OP.has(e.id)?'open':''} ontoggle="op(this,'${e.id}')"><summary>${h(e.n)} <span class="ms-2">${bd(r.p>=100?'verde':r.p>0?'amb':'gris',r.p+'%')}</span> ${bd('azul',APN[e.ap])}
+  ${r.t>0&&r.p<100?`<button class="btn btn-sm btn-outline-danger float-end" onclick="event.preventDefault();event.stopPropagation();verFaltan('${e.id}')">${ic('people')} Ver quiénes faltan</button>`:''}</summary>${bar(r.p)}
+  ${e.cur.map(k=>{const f=el.filter(c=>!hecho(c,k.id)),ok=el.length-f.length,p=el.length?Math.round(ok*100/el.length):0;
+   return `<details ${OP.has(k.id)?'open':''} ontoggle="op(this,'${k.id}')"><summary>${h(k.n)} <small class="text-muted">${p}% (${ok}/${el.length})${f.length?' - faltan '+f.length:''}</small></summary>
+   ${f.length?'<small class="text-muted">Toca un nombre para marcarlo como completado:</small><br>':''}
+   ${f.map(c=>`<button class="btn btn-sm btn-outline-warning m-1" title="${h(c.cargo)}" onclick="mk('${c.id}','${k.id}')">${h(pn(c))} ${h(c.ape.split(' ')[0])} ${ic('check-lg')}</button>`).join('')}</details>`}).join('')}</details>`}).join('')}
+
+// Zona aparte para crear, editar y borrar escuelas y cursos
+function pGest(){
+ return `<div class="cardx mb-3 d-flex flex-wrap align-items-center gap-2"><div><b>Gestión de escuelas y cursos</b><div><small class="text-muted">Aquí se crea, edita y elimina. El reporte queda solo para consultar.</small></div></div>
+ <button class="btn btn-pj ms-auto" onclick="nuevaEsc()">${ic('plus-lg')} Nueva escuela</button></div>`+S.esc.map(e=>`<details ${OP.has('g'+e.id)?'open':''} ontoggle="op(this,'g${e.id}')"><summary>${h(e.n)} <small class="text-muted">${e.cur.length} cursos</small> ${bd('azul',APN[e.ap])}</summary>
+  <div class="mb-2"><button class="btn btn-sm btn-outline-secondary" onclick="editEsc('${e.id}')">${ic('pencil')} Editar escuela</button> <button class="btn btn-sm btn-outline-danger" onclick="delEsc('${e.id}')">${ic('trash')} Eliminar escuela</button></div>
+  ${e.cur.map(k=>`<div class="li"><span>${h(k.n)}</span><span class="text-nowrap"><button class="btn btn-sm btn-outline-secondary" title="Editar curso" onclick="editCur('${e.id}','${k.id}')">${ic('pencil')}</button> <button class="btn btn-sm btn-outline-danger" title="Eliminar curso" onclick="delCur('${e.id}','${k.id}')">${ic('trash')}</button></span></div>`).join('')||'<small class="text-muted">Sin cursos todavía.</small>'}
+  <button class="btn btn-sm btn-pj mt-2" onclick="addCur('${e.id}')">${ic('plus-lg')} Agregar curso</button></details>`).join('')}
+
+function pCol(){
+ const L=act().filter(pasa).sort((x,y)=>nom(x).localeCompare(nom(y))),c=L.find(x=>x.id==SEL)||L[0];
+ return `<div class="cardx"><div class="d-flex flex-wrap gap-2 mb-3">${buscador()}<select class="form-select" style="max-width:340px" onchange="SEL=this.value;render()">${L.map(x=>`<option value="${x.id}" ${c&&x.id==c.id?'selected':''}>${h(nom(x))} (${h(x.cargo)})</option>`).join('')}</select></div>
+ ${c&&!cuenta(c)?'<small class="text-muted">Este cargo no cuenta en el reporte, pero puedes registrar sus cursos.</small>':''}
+ ${c?S.esc.filter(e=>cuenta(c)?AP[e.ap].includes(c.cargo):true).map(e=>{const n=e.cur.filter(k=>hecho(c,k.id)).length;
+  return `<details ${OP.has('c'+e.id)?'open':''} ontoggle="op(this,'c${e.id}')"><summary>${h(e.n)} <small class="text-muted">${n}/${e.cur.length}</small>
+  <span class="float-end"><button class="btn btn-sm btn-pj" onclick="event.preventDefault();cEsc('${c.id}','${e.id}',1)">Completar escuela</button> <button class="btn btn-sm btn-outline-secondary" onclick="event.preventDefault();cEsc('${c.id}','${e.id}',0)">Quitar</button></span></summary>
+  ${e.cur.map(k=>`<div class="form-check"><input class="form-check-input" type="checkbox" id="p${k.id}" ${hecho(c,k.id)?'checked':''} onchange="tgP('${c.id}','${k.id}')"><label class="form-check-label" for="p${k.id}">${h(k.n)}</label></div>`).join('')}</details>`}).join(''):'<span class="text-muted">Agrega colaboradores primero.</span>'}</div>`}
+
+// ===== Acciones =====
+function abrirCol(id){
+ ED=id;const e=S.col.find(c=>c.id==id)||{};
+ $('#mTit').textContent=id?'Editar colaborador':'Nuevo colaborador';
+ const m=(e.cum||'').split('-'),dd=m[m.length-1]||'',mm=m[m.length-2]||'';
+ ['nom','ape','dni','pas','caj'].forEach(k=>$('#f_'+k).value=e[k]||'');
+ $('#f_car').value=e.cargo||'Team Member';$('#f_jor').value=e.jor||'Full Time';
+ $('#f_dia').value=dd?+dd:'';$('#f_mes').value=mm?+mm:'';
+ bootstrap.Modal.getOrCreateInstance($('#mCol')).show()}
+function gCol(){
+ const v=i=>$('#f_'+i).value.trim(),dia=+v('dia'),mes=+v('mes');
+ if(!v('nom')||!v('ape'))return aviso('Faltan datos','Escribe los nombres y apellidos.');
+ if(!!dia!=!!mes)return aviso('Cumpleaños incompleto','Elige el día y el mes, o deja ambos vacíos.');
+ if(dia&&dia>new Date(2024,mes,0).getDate())return aviso('Fecha no válida','Ese mes no tiene el día '+dia+'.');
+ const cum=dia?String(mes).padStart(2,'0')+'-'+String(dia).padStart(2,'0'):'';
+ const d={nom:v('nom'),ape:v('ape'),cargo:v('car'),jor:v('jor'),dni:v('dni'),pas:v('pas'),caj:v('caj'),cum};
+ if(ED)Object.assign(S.col.find(c=>c.id==ED),d);else S.col.push({id:uid(),act:true,...d});
+ bootstrap.Modal.getOrCreateInstance($('#mCol')).hide();
+ toast(ED?'Colaborador actualizado':'Colaborador agregado');ED=null;go()}
+async function importar(){
+ const r=await Swal.fire({title:'Importar desde Excel',html:'<small>Una fila por persona. Columnas: Nombres, Apellidos, Cargo, Jornada, DNI, Password PTT, Código Caja, Cumpleaños (DD/MM)</small>',
+  input:'textarea',inputPlaceholder:'Pega aquí las filas copiadas de Excel',showCancelButton:true,confirmButtonText:'Importar',cancelButtonText:'Cancelar',confirmButtonColor:VERDE});
+ if(!r.isConfirmed||!r.value)return;
+ let n=0;r.value.split('\n').forEach(l=>{
+  const p=l.split(/\t|;/).map(x=>x.trim());if(p.length<2||!p[0])return;
+  const m=(p[7]||'').match(/^(\d{1,2})[\/-](\d{1,2})/);
+  S.col.push({id:uid(),act:true,nom:p[0],ape:p[1],cargo:CARGOS.includes(p[2])?p[2]:'Team Member',jor:/part/i.test(p[3]||'')?'Part Time':'Full Time',dni:p[4]||'',pas:p[5]||'',caj:p[6]||'',cum:m?m[2].padStart(2,'0')+'-'+m[1].padStart(2,'0'):''});n++});
+ go();toast(n+' colaboradores importados')}
+function inact(id){const c=S.col.find(x=>x.id==id);c.act=c.act===false;go();toast(c.act===false?'Colaborador inactivado':'Colaborador activado')}
+async function delCol(id){
+ if(!await conf('Eliminar colaborador','Se borrará con todo su historial. Si solo dejó la tienda, es mejor inactivarlo.'))return;
+ S.col=S.col.filter(c=>c.id!=id);delete S.car[id];delete S.ent[id];delete S.ptt[id];go();toast('Colaborador eliminado')}
+function renovar(id){
+ const f=$('#d_'+id).value;
+ if(!f)return aviso('Selecciona una fecha','Elige la fecha de emisión en el calendario.');
+ const o=S.car[id];S.car[id]={em:f,hist:o?[o.em,...o.hist]:[]};go();
+ toast('Carnet actualizado. Vence el '+fmtF(suma6(f)))}
+function tgE(id,k){S.ent[id]=S.ent[id]||{};S.ent[id][k]=!S.ent[id][k];go()}
+function mkB(id,i,v){S.ent[id]=S.ent[id]||{};TR[i].t.forEach((_,j)=>S.ent[id][i+'.'+j]=v?1:0);go()}
+function mk(id,k){S.ptt[id]=S.ptt[id]||{};S.ptt[id][k]=1;go();toast('Curso marcado como completado')}
+function tgP(id,k){S.ptt[id]=S.ptt[id]||{};S.ptt[id][k]=!S.ptt[id][k];go()}
+async function cEsc(id,eid,v){
+ if(v&&!await conf('Completar toda la escuela','Se marcarán todos sus cursos como completados.'))return;
+ S.ptt[id]=S.ptt[id]||{};S.esc.find(e=>e.id==eid).cur.forEach(k=>S.ptt[id][k.id]=v?1:0);go();toast(v?'Escuela completada':'Escuela desmarcada')}
+async function nuevaEsc(){
+ const r=await Swal.fire({title:'Nueva escuela',showCancelButton:true,confirmButtonText:'Crear',cancelButtonText:'Cancelar',confirmButtonColor:VERDE,
+  html:'<input id="sn" class="swal2-input" placeholder="Nombre de la escuela"><select id="sa" class="swal2-select" style="display:flex;width:80%">'+Object.keys(APN).map(k=>`<option value="${k}">${APN[k]}</option>`).join('')+'</select>',
+  preConfirm:()=>{const n=$('#sn').value.trim();if(!n){Swal.showValidationMessage('Escribe el nombre de la escuela');return false}return{n,a:$('#sa').value}}});
+ if(r.isConfirmed){S.esc.push({id:uid(),n:r.value.n,ap:r.value.a,cur:[]});go();toast('Escuela creada')}}
+async function addCur(eid){
+ const r=await Swal.fire({title:'Nuevo curso',input:'text',inputPlaceholder:'Nombre del curso',showCancelButton:true,confirmButtonText:'Agregar',cancelButtonText:'Cancelar',confirmButtonColor:VERDE,inputValidator:v=>!v.trim()&&'Escribe el nombre del curso'});
+ if(r.isConfirmed){S.esc.find(e=>e.id==eid).cur.push({id:uid(),n:r.value.trim()});go();toast('Curso agregado')}}
+async function delCur(eid,kid){
+ if(!await conf('Quitar curso','Se eliminará el curso y el avance registrado.'))return;
+ const e=S.esc.find(e=>e.id==eid);e.cur=e.cur.filter(k=>k.id!=kid);go();toast('Curso eliminado')}
+async function delEsc(eid){
+ if(!await conf('Eliminar escuela','Se eliminará con todos sus cursos.'))return;
+ S.esc=S.esc.filter(e=>e.id!=eid);go();toast('Escuela eliminada')}
+
+// Muestra quiénes faltan en una escuela y qué cursos les faltan
+function verFaltan(eid){
+ const e=S.esc.find(x=>x.id==eid),pop=poblacion(true);
+ const lista=pop.filter(c=>AP[e.ap].includes(c.cargo)).map(c=>({c,f:e.cur.filter(k=>!hecho(c,k.id))})).filter(x=>x.f.length);
+ const html=lista.length?lista.map(x=>`<div class="mb-3 text-start"><b>${h(nom(x.c))}</b> <small class="text-muted">${h(x.c.cargo)} - faltan ${x.f.length} de ${e.cur.length}</small><ul class="mb-0">${x.f.map(k=>`<li>${h(k.n)}</li>`).join('')}</ul></div>`).join(''):'Todos completaron esta escuela.';
+ Swal.fire({title:'Pendientes: '+h(e.n),html:`<div style="max-height:55vh;overflow:auto">${html}</div>`,width:640,confirmButtonText:'Cerrar',confirmButtonColor:VERDE})}
+async function editEsc(eid){
+ const e=S.esc.find(x=>x.id==eid);
+ const r=await Swal.fire({title:'Editar escuela',showCancelButton:true,confirmButtonText:'Guardar',cancelButtonText:'Cancelar',confirmButtonColor:VERDE,
+  html:`<input id="sn" class="swal2-input" value="${h(e.n)}"><select id="sa" class="swal2-select" style="display:flex;width:80%">${Object.keys(APN).map(k=>`<option value="${k}" ${k==e.ap?'selected':''}>${APN[k]}</option>`).join('')}</select>`,
+  preConfirm:()=>{const n=$('#sn').value.trim();if(!n){Swal.showValidationMessage('Escribe el nombre de la escuela');return false}return{n,a:$('#sa').value}}});
+ if(r.isConfirmed){e.n=r.value.n;e.ap=r.value.a;go();toast('Escuela actualizada')}}
+async function editCur(eid,kid){
+ const k=S.esc.find(x=>x.id==eid).cur.find(x=>x.id==kid);
+ const r=await Swal.fire({title:'Editar curso',input:'text',inputValue:k.n,showCancelButton:true,confirmButtonText:'Guardar',cancelButtonText:'Cancelar',confirmButtonColor:VERDE,inputValidator:v=>!v.trim()&&'Escribe el nombre del curso'});
+ if(r.isConfirmed){k.n=r.value.trim();go();toast('Curso actualizado')}}
+
+// ===== Respaldo =====
+function bajar(){
+ S.resp=hoy();save();
+ const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([JSON.stringify(S,null,1)],{type:'application/json'}));
+ a.download='respaldo-papajohns-'+hoy()+'.json';a.click();render();toast('Respaldo descargado')}
+function subir(i){
+ const f=i.files[0];if(!f)return;const r=new FileReader();
+ r.onload=async()=>{try{const d=JSON.parse(r.result);if(!d.col||!d.esc)throw 0;
+  if(await conf('Restaurar respaldo','Esto reemplaza los datos actuales.')){S=d;go();toast('Respaldo restaurado')}}
+  catch(e){aviso('Archivo no válido','El archivo no es un respaldo de este sistema.')}i.value=''};
+ r.readAsText(f)}
+
+// ===== Inicio =====
+$('#f_car').innerHTML=CARGOS.map(c=>`<option>${c}</option>`).join('');
+$('#f_dia').innerHTML='<option value="">Día</option>'+Array.from({length:31},(_,i)=>`<option value="${i+1}">${i+1}</option>`).join('');
+$('#f_mes').innerHTML='<option value="">Mes</option>'+MESES.map((m,i)=>`<option value="${i+1}">${m}</option>`).join('');
+save();render();
+</script></body></html>
