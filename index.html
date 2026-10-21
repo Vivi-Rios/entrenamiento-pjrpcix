@@ -84,9 +84,23 @@ th{font-size:12px;color:var(--g);font-weight:600}
 
 // ===== Datos fijos =====
 const CARGOS=['Team Member','Experto','Master Trainer','Líder de Entrenamiento','Asistente de Tienda','Gerente de Tienda'];
-const EXCL=['Asistente de Tienda','Gerente de Tienda']; // estos cargos no cuentan en los reportes PTT
-const AP={T:CARGOS.slice(0,4),E:['Experto'],M:['Master Trainer','Líder de Entrenamiento'],L:['Líder de Entrenamiento']};
-const APN={T:'Todos',E:'Solo Experto',M:'Master Trainer y Líder',L:'Solo Líder'};
+const EXCL=[]; // estos cargos no cuentan en los reportes PTT
+const AP={
+  T:CARGOS.slice(0,4),
+  E:['Experto'],
+  M:['Master Trainer','Líder de Entrenamiento'],
+  L:['Líder de Entrenamiento'],
+  G:['Gerente de Tienda'],
+  A:['Asistente de Tienda']
+};
+const APN={
+  T:'Todos',
+  E:'Solo Experto',
+  M:'Master Trainer y Líder',
+  L:'Solo Líder',
+  G:'Solo Gerente',
+  A:'Solo Asistente'
+};
 // Escuelas: "nombre|quién la lleva|curso;curso"
 const ESC0=[
 "Inducción Corporativa|T|Inducción de Seguridad y Salud en el Trabajo;Inducción al puesto de trabajo de SST - PJ;Inducción de prevención del Hostigamiento Sexual Laboral - PJ;Entrenamiento de Brigadas de Emergencia;BPM",
@@ -159,7 +173,7 @@ const buscador=()=>`<input id="q" class="form-control" style="max-width:320px" p
 const ir=k=>{V=k;Q='';ED=null;render()};
 
 // ===== PTT: cálculos =====
-const cuenta=c=>c.act!==false&&!EXCL.includes(c.cargo); // exclusión automática de Asistente y Gerente
+const cuenta=c=>c.act!==false; // exclusión automática de Asistente y Gerente
 const hecho=(c,k)=>S.ptt[c.id]&&S.ptt[c.id][k];
 const pend=c=>S.esc.some(e=>AP[e.ap].includes(c.cargo)&&e.cur.some(k=>!hecho(c,k.id)));
 function pctEsc(e,pop){let t=0,x=0;pop.forEach(c=>{if(!AP[e.ap].includes(c.cargo))return;e.cur.forEach(k=>{t++;if(hecho(c,k.id))x++})});return{t,x,p:t?Math.round(x*100/t):0}}
@@ -270,7 +284,7 @@ function vPtt(){
 function pRep(){
  const pop=poblacion(true),g=pctTot(pop);
  return `<div class="cardx mb-3"><div class="d-flex flex-wrap gap-2 align-items-center mb-2">${buscador()}
- <select class="form-select" style="max-width:210px" onchange="FC=this.value;render()"><option value="">Todos los cargos</option>${CARGOS.filter(c=>!EXCL.includes(c)).map(c=>`<option ${FC==c?'selected':''}>${c}</option>`).join('')}</select>
+ <select class="form-select" style="max-width:210px" onchange="FC=this.value;render()"><option value="">Todos los cargos</option>${CARGOS.map(c=>`<option ${FC==c?'selected':''}>${c}</option>`).join('')}</select>
  <select class="form-select" style="max-width:170px" onchange="FT=this.value;render()"><option value="">Toda jornada</option><option ${FT=='Full Time'?'selected':''}>Full Time</option><option ${FT=='Part Time'?'selected':''}>Part Time</option></select>
  <div class="form-check"><input class="form-check-input" type="checkbox" id="fp" ${FP?'checked':''} onchange="FP=this.checked;render()"><label class="form-check-label" for="fp">Solo con cursos pendientes</label></div><div class="ms-auto d-flex gap-2"><button class="btn btn-outline-secondary" onclick="imprimirPendTodos()">${ic('printer')} Imprimir pendientes</button><button class="btn btn-pj" onclick="bajarPendTodos()">${ic('file-earmark-excel')} Excel de pendientes</button></div></div>
  <small class="text-muted">Solo cuentan Team Member, Experto, Master Trainer y Líder; Asistentes y Gerentes se excluyen automáticamente. Colaboradores en el reporte: ${pop.length}</small>
