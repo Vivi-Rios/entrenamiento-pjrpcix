@@ -79,6 +79,7 @@ th{font-size:12px;color:var(--g);font-weight:600}
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
 <script>
 
 // ===== Datos fijos =====
@@ -271,7 +272,7 @@ function pRep(){
  return `<div class="cardx mb-3"><div class="d-flex flex-wrap gap-2 align-items-center mb-2">${buscador()}
  <select class="form-select" style="max-width:210px" onchange="FC=this.value;render()"><option value="">Todos los cargos</option>${CARGOS.filter(c=>!EXCL.includes(c)).map(c=>`<option ${FC==c?'selected':''}>${c}</option>`).join('')}</select>
  <select class="form-select" style="max-width:170px" onchange="FT=this.value;render()"><option value="">Toda jornada</option><option ${FT=='Full Time'?'selected':''}>Full Time</option><option ${FT=='Part Time'?'selected':''}>Part Time</option></select>
- <div class="form-check"><input class="form-check-input" type="checkbox" id="fp" ${FP?'checked':''} onchange="FP=this.checked;render()"><label class="form-check-label" for="fp">Solo con cursos pendientes</label></div></div>
+ <div class="form-check"><input class="form-check-input" type="checkbox" id="fp" ${FP?'checked':''} onchange="FP=this.checked;render()"><label class="form-check-label" for="fp">Solo con cursos pendientes</label></div><div class="ms-auto d-flex gap-2"><button class="btn btn-outline-secondary" onclick="imprimirPendTodos()">${ic('printer')} Imprimir pendientes</button><button class="btn btn-pj" onclick="bajarPendTodos()">${ic('file-earmark-excel')} Excel de pendientes</button></div></div>
  <small class="text-muted">Solo cuentan Team Member, Experto, Master Trainer y Líder; Asistentes y Gerentes se excluyen automáticamente. Colaboradores en el reporte: ${pop.length}</small>
  <div class="d-flex align-items-center gap-3 mt-2"><div style="font-size:28px;font-weight:700">${g.p}%</div><div style="flex:1">${bar(g.p)}</div></div></div>`+S.esc.map(e=>{
   const r=pctEsc(e,pop),el=pop.filter(c=>AP[e.ap].includes(c.cargo));
@@ -292,7 +293,7 @@ function pGest(){
 
 function pCol(){
  const L=act().filter(pasa).sort((x,y)=>nom(x).localeCompare(nom(y))),c=L.find(x=>x.id==SEL)||L[0];
- return `<div class="cardx"><div class="d-flex flex-wrap gap-2 mb-3">${buscador()}<select class="form-select" style="max-width:340px" onchange="SEL=this.value;render()">${L.map(x=>`<option value="${x.id}" ${c&&x.id==c.id?'selected':''}>${h(nom(x))} (${h(x.cargo)})</option>`).join('')}</select></div>
+ return `<div class="cardx"><div class="d-flex flex-wrap gap-2 mb-3">${buscador()}<select class="form-select" style="max-width:340px" onchange="SEL=this.value;render()">${L.map(x=>`<option value="${x.id}" ${c&&x.id==c.id?'selected':''}>${h(nom(x))} (${h(x.cargo)})</option>`).join('')}</select>${c?`<div class="ms-auto d-flex gap-2"><button class="btn btn-outline-secondary" onclick="imprimirPend('${c.id}')">${ic('printer')} Imprimir / PDF</button><button class="btn btn-pj" onclick="bajarPend('${c.id}')">${ic('file-earmark-excel')} Descargar Excel</button></div>`:''}</div>
  ${c&&!cuenta(c)?'<small class="text-muted">Este cargo no cuenta en el reporte, pero puedes registrar sus cursos.</small>':''}
  ${c?S.esc.filter(e=>cuenta(c)?AP[e.ap].includes(c.cargo):true).map(e=>{const n=e.cur.filter(k=>hecho(c,k.id)).length;
   return `<details ${OP.has('c'+e.id)?'open':''} ontoggle="op(this,'c${e.id}')"><summary>${h(e.n)} <small class="text-muted">${n}/${e.cur.length}</small>
@@ -375,6 +376,79 @@ async function editCur(eid,kid){
  const r=await Swal.fire({title:'Editar curso',input:'text',inputValue:k.n,showCancelButton:true,confirmButtonText:'Guardar',cancelButtonText:'Cancelar',confirmButtonColor:VERDE,inputValidator:v=>!v.trim()&&'Escribe el nombre del curso'});
  if(r.isConfirmed){k.n=r.value.trim();go();toast('Curso actualizado')}}
 
+// ===== Pendientes por colaborador (Excel e impresión) =====
+// Escuelas y cursos que le faltan, con el mismo criterio de la pestaña "Marcar por colaborador"
+function pendientes(c){
+ return S.esc.filter(e=>cuenta(c)?AP[e.ap].includes(c.cargo):true)
+  .map(e=>({n:e.n,f:e.cur.filter(k=>!hecho(c,k.id)).map(k=>k.n)})).filter(x=>x.f.length)}
+function bajarPend(id){
+ const c=S.col.find(x=>x.id==id),L=pendientes(c);
+ if(!L.length)return toast('Este colaborador no tiene cursos pendientes','info');
+ if(typeof XLSX==='undefined')return aviso('No se pudo cargar la herramienta de Excel','Revisa tu conexión a internet o usa la opción Imprimir / PDF.');
+ const tot=L.reduce((s,x)=>s+x.f.length,0);
+ const filas=[['Cursos PTT pendientes'],['Colaborador',nom(c)],['Cargo',c.cargo],['Fecha',fmtF(hoy())],['Total de cursos pendientes',tot],[],['Escuela','Curso pendiente']];
+ L.forEach(x=>x.f.forEach(k=>filas.push([x.n,k])));
+ const ws=XLSX.utils.aoa_to_sheet(filas);ws['!cols']=[{wch:48},{wch:75}];
+ const wb=XLSX.utils.book_new();XLSX.utils.book_append_sheet(wb,ws,'Pendientes');
+ const nombre=nom(c).normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^\w]+/g,'-');
+ XLSX.writeFile(wb,'pendientes-PTT-'+nombre+'-'+hoy()+'.xlsx');
+ toast('Excel descargado')}
+function imprimirPend(id){
+ const c=S.col.find(x=>x.id==id),L=pendientes(c);
+ if(!L.length)return toast('Este colaborador no tiene cursos pendientes','info');
+ const w=window.open('','_blank');
+ if(!w)return aviso('El navegador bloqueó la ventana','Permite las ventanas emergentes para este archivo e inténtalo de nuevo.');
+ const tot=L.reduce((s,x)=>s+x.f.length,0);
+ w.document.write(`<!DOCTYPE html><html lang="es"><head><meta charset="utf-8"><title>Pendientes PTT - ${h(nom(c))}</title><style>
+ body{font-family:'Segoe UI',Arial,sans-serif;margin:28px;color:#222}h1{color:#0b6b3a;margin:0 0 4px}
+ h2{font-size:15px;margin:18px 0 6px;border-bottom:2px solid #c8102e;padding-bottom:3px}
+ ul{padding-left:6px;margin:0}li{list-style:none;margin:4px 0}small{color:#666}
+ .cb{display:inline-block;width:12px;height:12px;border:1.5px solid #333;margin-right:8px;vertical-align:-1px}
+ </style></head><body><h1>Cursos PTT pendientes</h1>
+ <div><b>${h(nom(c))}</b> - ${h(c.cargo)}<br><small>Fecha: ${fmtF(hoy())} - Total pendientes: ${tot}</small></div>
+ ${L.map(x=>`<h2>${h(x.n)} <small>(${x.f.length})</small></h2><ul>${x.f.map(k=>`<li><span class="cb"></span>${h(k)}</li>`).join('')}</ul>`).join('')}
+ </body></html>`);
+ w.document.close();w.focus();setTimeout(()=>w.print(),400)}
+
+// ===== Pendientes de toda la tienda (sin gerentes ni asistentes) =====
+// Usa los mismos filtros que el reporte (cargo, jornada, búsqueda, solo pendientes)
+function pendTodos(){
+ return poblacion(true).map(c=>({c,L:pendientes(c)})).filter(x=>x.L.length)
+  .sort((x,y)=>CARGOS.indexOf(y.c.cargo)-CARGOS.indexOf(x.c.cargo)||nom(x.c).localeCompare(nom(y.c)))}
+const totCur=L=>L.reduce((s,x)=>s+x.f.length,0);
+function bajarPendTodos(){
+ const D=pendTodos();
+ if(!D.length)return toast('No hay cursos pendientes en este reporte','info');
+ if(typeof XLSX==='undefined')return aviso('No se pudo cargar la herramienta de Excel','Revisa tu conexión a internet o usa la opción Imprimir / PDF.');
+ // hoja 1: detalle, una fila por curso pendiente
+ const det=[['Cursos PTT pendientes - Reporte de la tienda'],['Fecha',fmtF(hoy())],['Colaboradores con pendientes',D.length],[],['Colaborador','Cargo','Escuela','Curso pendiente']];
+ D.forEach(x=>x.L.forEach(e=>e.f.forEach(k=>det.push([nom(x.c),x.c.cargo,e.n,k]))));
+ // hoja 2: resumen, una fila por colaborador
+ const res=[['Colaborador','Cargo','Escuelas pendientes','Cursos pendientes']];
+ D.forEach(x=>res.push([nom(x.c),x.c.cargo,x.L.length,totCur(x.L)]));
+ const w1=XLSX.utils.aoa_to_sheet(det),w2=XLSX.utils.aoa_to_sheet(res);
+ w1['!cols']=[{wch:30},{wch:24},{wch:45},{wch:70}];w2['!cols']=[{wch:30},{wch:24},{wch:20},{wch:18}];
+ const wb=XLSX.utils.book_new();XLSX.utils.book_append_sheet(wb,w1,'Detalle');XLSX.utils.book_append_sheet(wb,w2,'Resumen');
+ XLSX.writeFile(wb,'pendientes-PTT-tienda-'+hoy()+'.xlsx');
+ toast('Excel descargado')}
+function imprimirPendTodos(){
+ const D=pendTodos();
+ if(!D.length)return toast('No hay cursos pendientes en este reporte','info');
+ const w=window.open('','_blank');
+ if(!w)return aviso('El navegador bloqueó la ventana','Permite las ventanas emergentes para este archivo e inténtalo de nuevo.');
+ const tot=D.reduce((s,x)=>s+totCur(x.L),0);
+ w.document.write(`<!DOCTYPE html><html lang="es"><head><meta charset="utf-8"><title>Pendientes PTT - Tienda</title><style>
+ body{font-family:'Segoe UI',Arial,sans-serif;margin:28px;color:#222}h1{color:#0b6b3a;margin:0 0 4px}
+ h2{font-size:16px;margin:22px 0 4px;background:#e8f2ec;border-left:5px solid #0b6b3a;padding:6px 10px;break-after:avoid}
+ h3{font-size:13px;margin:10px 0 4px;border-bottom:1px solid #c8102e;padding-bottom:2px;break-after:avoid}
+ ul{padding-left:6px;margin:0}li{list-style:none;margin:3px 0;break-inside:avoid}small{color:#666;font-weight:normal}
+ .cb{display:inline-block;width:11px;height:11px;border:1.5px solid #333;margin-right:8px;vertical-align:-1px}
+ </style></head><body><h1>Cursos PTT pendientes</h1>
+ <div><small>Fecha: ${fmtF(hoy())} - Colaboradores con pendientes: ${D.length} - Total de cursos pendientes: ${tot}</small></div>
+ ${D.map(x=>`<h2>${h(nom(x.c))} <small>${h(x.c.cargo)} - ${totCur(x.L)} cursos pendientes</small></h2>`+x.L.map(e=>`<h3>${h(e.n)} <small>(${e.f.length})</small></h3><ul>${e.f.map(k=>`<li><span class="cb"></span>${h(k)}</li>`).join('')}</ul>`).join('')).join('')}
+ </body></html>`);
+ w.document.close();w.focus();setTimeout(()=>w.print(),400)}
+
 // ===== Respaldo =====
 function bajar(){
  S.resp=hoy();save();
@@ -393,3 +467,4 @@ $('#f_dia').innerHTML='<option value="">Día</option>'+Array.from({length:31},(_
 $('#f_mes').innerHTML='<option value="">Mes</option>'+MESES.map((m,i)=>`<option value="${i+1}">${m}</option>`).join('');
 save();render();
 </script></body></html>
+
