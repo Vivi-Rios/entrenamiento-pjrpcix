@@ -5,7 +5,7 @@
 <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
 <style>
 :root{--v:#0b6b3a;--vd:#07482a;--r:#c8102e;--a:#f2a900;--g:#6b7280;--bg:#eef3f0}
-body{background:var(--bg);font-family:'Segoe UI',system-ui,sans-serif;color:#1f2a24;font-size:14px}
+body{background:var(--bg);font-family:'Segoe UI',system-ui,sans-serif;color:#1f2a24;font-size:15px}
 /* barra lateral */
 #side{position:fixed;inset:0 auto 0 0;width:250px;background:linear-gradient(180deg,var(--vd),var(--v));color:#fff;display:flex;flex-direction:column;z-index:1040;transition:transform .2s}
 .brand{padding:18px 16px;border-bottom:1px solid #ffffff2e}
@@ -19,38 +19,51 @@ body{background:var(--bg);font-family:'Segoe UI',system-ui,sans-serif;color:#1f2
 .content{margin-left:250px}
 .top{background:#fff;padding:10px 22px;display:flex;align-items:center;gap:12px;border-bottom:1px solid #dce5e0;position:sticky;top:0;z-index:1030}
 .top h5{margin:0;flex:1}#gd{font-size:12px;color:var(--g)}
-main{padding:22px;max-width:1250px;margin:auto}
-@media(max-width:991px){#side{transform:translateX(-100%)}#side.open{transform:none}.content{margin-left:0}}
+main{padding:28px;max-width:1250px;margin:auto}
+@media(max-width:1199px){#side{transform:translateX(-100%)}#side.open{transform:none}.content{margin-left:0}}
 /* tarjetas */
-.hero{background:linear-gradient(120deg,var(--vd),var(--v) 60%,#16924f);color:#fff;border-radius:14px;padding:22px 26px}
+.hero{background:linear-gradient(120deg,var(--vd),var(--v) 60%,#16924f);color:#fff;border-radius:14px;padding:28px 32px}
 .hero-note{margin-top:12px;background:#ffffff26;border-radius:8px;padding:8px 12px;display:inline-block}.hero-note a{color:#fff;font-weight:600}
-.cardx{background:#fff;border-radius:14px;border-top:4px solid var(--v);padding:18px;box-shadow:0 4px 14px #0b3d2320;height:100%;transition:transform .18s,box-shadow .18s}
+.cardx{background:#fff;border-radius:14px;border-top:4px solid var(--v);padding:26px;box-shadow:0 4px 14px #0b3d2320;height:100%;transition:transform .18s,box-shadow .18s}
 .cardx.lift:hover{transform:translateY(-4px);box-shadow:0 12px 26px #0b3d2330}
 .cardx.top-r{border-top-color:var(--r)}.cardx.top-a{border-top-color:var(--a)}
-.cardx.alerta{border-top-color:#d62839;box-shadow:0 6px 20px #d628393a}.cardx.alerta.lift:hover{box-shadow:0 14px 30px #d6283950}
-tr.fila-rojo>td{background:#fff1f2}tr.fila-rojo>td:first-child{box-shadow:inset 4px 0 0 #d62839}
-tr.fila-amb>td{background:#fff8e6}tr.fila-amb>td:first-child{box-shadow:inset 4px 0 0 var(--a)}
+.cardx.alerta{border-top-color:#d96666;box-shadow:0 6px 20px #d9666626}.cardx.alerta.lift:hover{box-shadow:0 14px 30px #d9666638}
+tr.fila-rojo>td:first-child{box-shadow:inset 3px 0 0 #d96666}
+tr.fila-amb>td:first-child{box-shadow:inset 3px 0 0 #e3a93a}
 .cardx h6{font-weight:700;margin-bottom:12px}
 .stat{display:flex;align-items:center;gap:14px}.stat .num{font-size:26px;font-weight:700;line-height:1}
 .ico{width:46px;height:46px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:21px;color:#fff}
 .ico.v{background:var(--v)}.ico.r{background:var(--r)}.ico.a{background:var(--a);color:#222}
-.li{display:flex;justify-content:space-between;align-items:center;padding:9px 0;border-bottom:1px solid #edf1ee}.li:last-child{border:0}
+.li{display:flex;justify-content:space-between;align-items:center;padding:12px 0;border-bottom:1px solid #edf1ee}.li:last-child{border:0}
 /* etiquetas y barras */
-.b{display:inline-block;padding:3px 10px;border-radius:12px;color:#fff;font-size:12px;white-space:nowrap;margin:1px}
-.rojo{background:#d62839}.amb{background:var(--a);color:#222}.verde{background:#1f9d55}.gris{background:var(--g)}.azul{background:#2f6fa8}
+.b{display:inline-block;padding:3px 10px;border-radius:12px;font-size:12px;white-space:nowrap;margin:1px}
+.rojo{background:#fbe9ea;color:#a4262c}.amb{background:#fff3d6;color:#8a5a00}.verde{background:#e3f4ea;color:#1b6e43}.gris{background:#eceeed;color:#555}.azul{background:#e4eef8;color:#2a5d8f}
 .bar{background:#e3e9e5;border-radius:6px;height:9px;overflow:hidden;min-width:70px}.bar i{display:block;height:100%;background:var(--v)}
 .btn-pj{background:var(--v);border-color:var(--v);color:#fff}.btn-pj:hover{background:var(--vd);border-color:var(--vd);color:#fff}
-details{border:1px solid #dde5e0;border-radius:8px;margin:8px 0;padding:8px 12px;background:#fff}
+details{border:1px solid #dde5e0;border-radius:8px;margin:10px 0;padding:12px 16px;background:#fff}
 summary{cursor:pointer;font-weight:600}details[open]>summary{margin-bottom:6px}
 th{font-size:12px;color:var(--g);font-weight:600}
+/* respiración y tablas más cómodas */
+.table>:not(caption)>*>*{padding:.9rem .8rem}
+main .cardx.mb-3,main .hero.mb-3,main .row.mb-3{margin-bottom:1.75rem!important}
+button.b{padding:6px 12px;font-size:13px;margin:3px}
+.b::before{content:'';display:inline-block;width:7px;height:7px;border-radius:50%;background:currentColor;margin-right:6px;vertical-align:1px}
+/* táctil: casillas y botones más grandes */
+.btn{min-height:42px;display:inline-flex;align-items:center;justify-content:center;gap:6px}.btn-sm{min-height:38px;padding:.35rem .8rem}
+.form-control,.form-select{min-height:44px}
+.form-check{min-height:2.7rem;display:flex;align-items:center;gap:.6rem;padding-left:0;margin:2px 0}
+.form-check-input{float:none;margin:0;width:1.5em;height:1.5em;flex:none}.form-check-label{flex:1;padding:6px 0}
+.dropdown-item{padding:.7rem 1.1rem}
+#fondo{display:none;position:fixed;inset:0;background:#0006;z-index:1035}#side.open+#fondo{display:block}
 </style></head><body>
 <div id="side">
  <div class="brand"><div class="logo-box"><img src="https://logos-marcas.com/wp-content/uploads/2022/01/Papa-Johns-Pizza-Logo.png" alt="Papa Johns" onerror="this.outerHTML='<b class=logo-fb>PAPA JOHNS</b>'"></div><small>Gestión de tienda</small></div>
  <nav id="menu"></nav>
 </div>
+<div id="fondo" onclick="$('#side').classList.remove('open')"></div>
 <div class="content">
  <header class="top">
-  <button class="btn btn-light d-lg-none" onclick="$('#side').classList.toggle('open')"><i class="bi bi-list"></i></button>
+  <button class="btn btn-light d-xl-none" onclick="$('#side').classList.toggle('open')"><i class="bi bi-list"></i></button>
   <h5 id="ttl"></h5><span id="gd"></span>
   <button class="btn btn-outline-secondary btn-sm" onclick="bajar()"><i class="bi bi-download"></i> Descargar respaldo</button>
   <button class="btn btn-outline-secondary btn-sm" onclick="$('#fi').click()"><i class="bi bi-upload"></i> Restaurar</button>
@@ -62,7 +75,7 @@ th{font-size:12px;color:var(--g);font-weight:600}
 <!-- Ventana emergente de colaborador -->
 <div class="modal fade" id="mCol" tabindex="-1"><div class="modal-dialog modal-lg modal-dialog-centered"><div class="modal-content">
  <div class="modal-header"><h5 class="modal-title" id="mTit"></h5><button type="button" class="btn-close" data-bs-dismiss="modal"></button></div>
- <div class="modal-body"><div class="row g-3">
+ <div class="modal-body"><div class="row g-4">
   <div class="col-md-6"><label class="form-label">Nombres</label><input id="f_nom" class="form-control"></div>
   <div class="col-md-6"><label class="form-label">Apellidos</label><input id="f_ape" class="form-control"></div>
   <div class="col-md-6"><label class="form-label">Cargo</label><select id="f_car" class="form-select"></select></div>
@@ -84,23 +97,9 @@ th{font-size:12px;color:var(--g);font-weight:600}
 
 // ===== Datos fijos =====
 const CARGOS=['Team Member','Experto','Master Trainer','Líder de Entrenamiento','Asistente de Tienda','Gerente de Tienda'];
-const EXCL=[]; // estos cargos no cuentan en los reportes PTT
-const AP={
-  T:CARGOS.slice(0,4),
-  E:['Experto'],
-  M:['Master Trainer','Líder de Entrenamiento'],
-  L:['Líder de Entrenamiento'],
-  G:['Gerente de Tienda'],
-  A:['Asistente de Tienda']
-};
-const APN={
-  T:'Todos',
-  E:'Solo Experto',
-  M:'Master Trainer y Líder',
-  L:'Solo Líder',
-  G:'Solo Gerente',
-  A:'Solo Asistente'
-};
+const EXCL=[]; // cargos que no cuentan en los reportes PTT (ahora entran todos, incluidos gerentes y asistentes)
+const AP={T:CARGOS,E:['Experto'],M:['Master Trainer','Líder de Entrenamiento'],L:['Líder de Entrenamiento']};
+const APN={T:'Todos',E:'Solo Experto',M:'Master Trainer y Líder',L:'Solo Líder'};
 // Escuelas: "nombre|quién la lleva|curso;curso"
 const ESC0=[
 "Inducción Corporativa|T|Inducción de Seguridad y Salud en el Trabajo;Inducción al puesto de trabajo de SST - PJ;Inducción de prevención del Hostigamiento Sexual Laboral - PJ;Entrenamiento de Brigadas de Emergencia;BPM",
@@ -173,7 +172,7 @@ const buscador=()=>`<input id="q" class="form-control" style="max-width:320px" p
 const ir=k=>{V=k;Q='';ED=null;render()};
 
 // ===== PTT: cálculos =====
-const cuenta=c=>c.act!==false; // exclusión automática de Asistente y Gerente
+const cuenta=c=>c.act!==false&&!EXCL.includes(c.cargo); // exclusión automática de Asistente y Gerente
 const hecho=(c,k)=>S.ptt[c.id]&&S.ptt[c.id][k];
 const pend=c=>S.esc.some(e=>AP[e.ap].includes(c.cargo)&&e.cur.some(k=>!hecho(c,k.id)));
 function pctEsc(e,pop){let t=0,x=0;pop.forEach(c=>{if(!AP[e.ap].includes(c.cargo))return;e.cur.forEach(k=>{t++;if(hecho(c,k.id))x++})});return{t,x,p:t?Math.round(x*100/t):0}}
@@ -184,12 +183,21 @@ function poblacion(filtrar){
  return L}
 
 // ===== Entrenamiento: cálculos =====
-const pb=(id,i)=>{const e=S.ent[id]||{};return Math.round(TR[i].t.filter((_,j)=>e[i+'.'+j]).length*100/TR[i].t.length)};
-function pa(id,a){let n=0,T=0;const e=S.ent[id]||{};TR.forEach((b,i)=>{if(b.a==a)b.t.forEach((_,j)=>{T++;if(e[i+'.'+j])n++})});return Math.round(n*100/T)}
+// Ruta de entrenamiento editable: cada módulo y tema tiene su id. El avance se guarda por id del tema
+const areas=()=>[...new Set(S.ruta.map(m=>m.a))];
+const pm=(id,m)=>{const e=S.ent[id]||{};return m.t.length?Math.round(m.t.filter(t=>e[t.id]).length*100/m.t.length):0}; // % de un módulo
+function pa(id,a){let n=0,T=0;const e=S.ent[id]||{};S.ruta.forEach(m=>{if(m.a==a)m.t.forEach(t=>{T++;if(e[t.id])n++})});return T?Math.round(n*100/T):0}
+// Crea la ruta desde la base la primera vez y pasa las marcas antiguas (por posición) a ids
+function iniRuta(){
+ if(S.ruta)return;
+ S.ruta=TR.map(b=>({id:uid(),a:b.a,b:b.b,t:b.t.map(n=>({id:uid(),n}))}));
+ Object.keys(S.ent).forEach(cid=>{const o=S.ent[cid],nuevo={};
+  Object.keys(o).forEach(k=>{if(!o[k])return;const[i,j]=k.split('.').map(Number),m=S.ruta[i];if(m&&m.t[j])nuevo[m.t[j].id]=1});
+  S.ent[cid]=nuevo})}
 
 // ===== Pantallas =====
-const TIT={res:'Resumen',col:'Colaboradores',car:'Carnet de Sanidad',ent:'Entrenamiento',ptt:'Cursos PTT'};
-const ICO={res:'grid-1x2',col:'people',car:'heart-pulse',ent:'mortarboard',ptt:'journal-check'};
+const TIT={res:'Resumen',col:'Colaboradores',car:'Carnet de Sanidad',ent:'Entrenamiento',ptt:'Cursos PTT',cfg:'Configuración'};
+const ICO={res:'grid-1x2',col:'people',car:'heart-pulse',ent:'mortarboard',ptt:'journal-check',cfg:'gear'};
 const MESES=['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
 const ic=n=>`<i class="bi bi-${n}"></i>`;
 const fmtF=s=>s.split('-').reverse().join('/'); // AAAA-MM-DD -> DD/MM/AAAA
@@ -204,8 +212,8 @@ const conf=(t,x='')=>Swal.fire({title:t,text:x,icon:'question',showCancelButton:
 function render(){
  $('#menu').innerHTML=Object.keys(TIT).map(k=>`<button class="${V==k?'on':''}" onclick="ir('${k}')">${ic(ICO[k])}${TIT[k]}</button>`).join('');
  $('#ttl').textContent=TIT[V];
- $('main').innerHTML={res:vRes,col:vCol,car:vCar,ent:vEnt,ptt:vPtt}[V]();
- $('#side').classList.remove('open');if(V=='res')grafico()}
+ $('main').innerHTML={res:vRes,col:vCol,car:vCar,ent:vEnt,ptt:vPtt,cfg:vCfg}[V]();
+ $('#side').classList.remove('open');if(V=='res')grafico();iniMenus()}
 
 function vRes(){
  const a=act(),pop=poblacion(),g=pctTot(pop);
@@ -218,12 +226,12 @@ function vRes(){
  const st=(i,c,n,t,x='')=>`<div class="col-6 col-xl-3"><div class="cardx lift stat top-${c} ${x}"><span class="ico ${c}">${ic(i)}</span><div><div class="num">${n}</div><small class="text-muted">${t}</small></div></div></div>`;
  return `<div class="hero mb-3"><h4 class="mb-1">Panel de la tienda</h4><div style="opacity:.8;text-transform:capitalize">${fecha}</div>
  ${dr===null||dr>=7?`<div class="hero-note">${ic('exclamation-triangle')} ${dr===null?'Todavía no descargas ningún respaldo.':'Hace '+dr+' días que no descargas un respaldo.'} <a href="#" onclick="bajar();return false">Descargar ahora</a></div>`:''}</div>
- <div class="row g-3 mb-3">${st('people','v',a.length,'Colaboradores activos')}${st('heart-pulse','r',cs.length,'Carnets por atender',cs.length?'alerta':'')}${st('gift','a',cu.length,'Cumpleaños esta semana')}${st('journal-check','v',g.p+'%','Cursos PTT de la tienda')}</div>
- <div class="row g-3 mb-3"><div class="col-lg-5"><div class="cardx lift"><h6>Avance de cursos PTT ${bd(g.p>=100?'verde':g.p>0?'amb':'gris',g.p+'%')}</h6>
+ <div class="row g-4 mb-3">${st('people','v',a.length,'Colaboradores activos')}${st('heart-pulse','r',cs.length,'Carnets por atender',cs.length?'alerta':'')}${st('gift','a',cu.length,'Cumpleaños esta semana')}${st('journal-check','v',g.p+'%','Cursos PTT de la tienda')}</div>
+ <div class="row g-4 mb-3"><div class="col-lg-5"><div class="cardx lift"><h6>Avance de cursos PTT ${bd(g.p>=100?'verde':g.p>0?'amb':'gris',g.p+'%')}</h6>
  ${g.t?`<div style="height:250px"><canvas id="gPie"></canvas></div><small class="text-muted d-block text-center mt-2">${g.x} de ${g.t} cursos completados en la tienda</small>`:'<span class="text-muted">Agrega colaboradores para ver el gráfico.</span>'}</div></div>
  <div class="col-lg-7"><div class="cardx lift"><h6>Escuelas con menor avance</h6>
  ${bajos.length?bajos.map(x=>`<div class="mb-3"><div class="d-flex justify-content-between"><span>${h(x.e.n)}</span><b>${x.r.p}%</b></div>${bar(x.r.p)}</div>`).join(''):'<span class="text-muted">Agrega colaboradores para ver el avance.</span>'}</div></div></div>
- <div class="row g-3"><div class="col-lg-7"><div class="cardx lift ${cs.length?'alerta':''}"><h6>Carnets de sanidad por vencer</h6>
+ <div class="row g-4"><div class="col-lg-7"><div class="cardx lift ${cs.length?'alerta':''}"><h6>Carnets de sanidad por vencer</h6>
  ${cs.length?cs.map(x=>`<div class="li"><span><b>${h(pn(x.c))}</b> <small class="text-muted">${h(x.c.cargo)}</small></span>${bd(x.e.c,x.e.t)}</div>`).join(''):'<span class="text-muted">Ningún carnet por vencer.</span>'}
  ${sin?`<small class="text-muted d-block mt-2">${sin} colaborador(es) sin carnet registrado</small>`:''}</div></div>
  <div class="col-lg-5"><div class="cardx lift top-a"><h6>Cumpleaños de los próximos 7 días</h6>
@@ -240,54 +248,62 @@ function grafico(){
   data:{labels:['Completados ('+g.x+')','Pendientes ('+(g.t-g.x)+')'],datasets:[{data:[g.x,g.t-g.x],backgroundColor:['#0b6b3a','#c8102e'],borderColor:'#fff',borderWidth:3}]},
   options:{maintainAspectRatio:false,plugins:{legend:{position:'bottom'}}}})}
 
+// Menú de tres puntos para las acciones secundarias de cada fila
+const menu=its=>`<div class="dropdown d-inline-block"><button class="btn btn-sm btn-light" data-bs-toggle="dropdown" aria-label="Acciones">${ic('three-dots-vertical')}</button><ul class="dropdown-menu dropdown-menu-end shadow-sm">${its.map(x=>`<li><a class="dropdown-item ${x.r?'text-danger':''}" href="#" onclick="${x.f};return false">${ic(x.i)} ${x.t}</a></li>`).join('')}</ul></div>`;
+// los menús se crean con posición fija para que no los recorte la tabla
+function iniMenus(){
+ if(typeof bootstrap==='undefined'||!bootstrap.Dropdown)return;
+ document.querySelectorAll('[data-bs-toggle="dropdown"]').forEach(b=>bootstrap.Dropdown.getOrCreateInstance(b,{popperConfig:{strategy:'fixed'}}))}
+
 function vCol(){
  // orden por cargo: Gerente, Asistente, Líder, Master Trainer, Experto, Team Member (y por nombre dentro de cada cargo)
  const L=S.col.filter(pasa).sort((x,y)=>CARGOS.indexOf(y.cargo)-CARGOS.indexOf(x.cargo)||nom(x).localeCompare(nom(y)));
- return `<div class="cardx"><div class="d-flex flex-wrap gap-2 mb-3 align-items-center">${buscador()}
+ return `<div class="cardx"><div class="d-flex flex-wrap gap-2 mb-4 align-items-center">${buscador()}
  <div class="ms-auto d-flex gap-2"><button class="btn btn-outline-secondary" onclick="importar()">${ic('file-earmark-spreadsheet')} Importar desde Excel</button>
  <button class="btn btn-pj" onclick="abrirCol(null)">${ic('person-plus')} Nuevo colaborador</button></div></div>
- <div class="table-responsive"><table class="table table-hover align-middle"><thead><tr><th>Nombre</th><th>Cargo</th><th>Jornada</th><th>DNI</th><th>Password PTT</th><th>Código Caja</th><th>Cumpleaños</th><th></th></tr></thead><tbody>
- ${L.map(c=>`<tr style="${c.act===false?'opacity:.5':''}"><td><b>${h(nom(c))}</b>${c.act===false?' <small>(inactivo)</small>':''}</td><td>${h(c.cargo)}</td><td>${bd(c.jor=='Part Time'?'gris':'azul',h(c.jor||'Full Time'))}</td>
+ <div class="table-responsive"><table class="table table-hover align-middle"><thead><tr><th>Colaborador</th><th>DNI</th><th>Password PTT</th><th>Código Caja</th><th>Cumpleaños</th><th></th></tr></thead><tbody>
+ ${L.map(c=>`<tr style="${c.act===false?'opacity:.55':''}"><td><a href="#" class="fw-semibold text-dark text-decoration-none" onclick="abrirCol('${c.id}');return false">${h(nom(c))}</a>${c.act===false?' <small class="text-muted">(inactivo)</small>':''}
+ <div class="mt-1"><small class="text-muted">${h(c.cargo)}</small> ${bd(c.jor=='Part Time'?'gris':'azul',h(c.jor||'Full Time'))}</div></td>
  <td>${h(c.dni)}</td><td>${h(c.pas)}</td><td>${h(c.caj)}</td>
  <td>${c.cum?fmtCum(c.cum):''} ${c.cum&&c.act!==false&&diasCumple(c.cum)<=7?ic('gift-fill').replace('<i ','<i style="color:var(--r)" title="Cumpleaños esta semana" '):''}</td>
- <td class="text-nowrap"><button class="btn btn-sm btn-outline-secondary" title="Editar" onclick="abrirCol('${c.id}')">${ic('pencil')}</button>
- <button class="btn btn-sm btn-outline-secondary" title="${c.act===false?'Activar':'Inactivar'}" onclick="inact('${c.id}')">${ic(c.act===false?'person-check':'person-dash')}</button>
- <button class="btn btn-sm btn-outline-danger" title="Eliminar" onclick="delCol('${c.id}')">${ic('trash')}</button></td></tr>`).join('')||'<tr><td colspan="8" class="text-muted">Aún no hay colaboradores. Usa el botón Nuevo colaborador.</td></tr>'}
+ <td class="text-end">${menu([{t:'Editar',i:'pencil',f:`abrirCol('${c.id}')`},{t:c.act===false?'Activar':'Inactivar',i:c.act===false?'person-check':'person-dash',f:`inact('${c.id}')`},{t:'Eliminar',i:'trash',r:1,f:`delCol('${c.id}')`}])}</td></tr>`).join('')||'<tr><td colspan="6" class="text-muted">Aún no hay colaboradores. Usa el botón Nuevo colaborador.</td></tr>'}
  </tbody></table></div></div>`}
 
 function vCar(){
  const L=act().filter(pasa).map(c=>({c,e:estCar(c.id)})).sort((x,y)=>(x.e.d??9999)-(y.e.d??9999));
- return `<div class="cardx"><div class="mb-3">${buscador()}</div><div class="table-responsive"><table class="table align-middle"><thead><tr><th>Colaborador</th><th>Emisión</th><th>Vencimiento (+6 meses)</th><th>Estado</th><th>Fecha de emisión nueva</th><th></th></tr></thead><tbody>
- ${L.map(({c,e})=>`<tr class="${e.c=='rojo'?'fila-rojo':e.c=='amb'?'fila-amb':''}"><td><b>${h(nom(c))}</b><br><small class="text-muted">${h(c.cargo)}</small></td><td>${S.car[c.id]?fmtF(S.car[c.id].em):'-'}</td><td>${e.v?fmtF(e.v):'-'}</td><td>${bd(e.c,e.t)}</td>
- <td style="min-width:170px"><input type="date" class="form-control form-control-sm" id="d_${c.id}" value="${hoy()}"></td>
- <td><button class="btn btn-sm btn-pj" title="${S.car[c.id]&&S.car[c.id].hist.length?'Emisiones anteriores: '+S.car[c.id].hist.map(fmtF).join(', '):''}" onclick="renovar('${c.id}')">${S.car[c.id]?'Renovar':'Registrar'}</button></td></tr>`).join('')||'<tr><td colspan="6" class="text-muted">No hay colaboradores activos.</td></tr>'}
+ return `<div class="cardx"><div class="mb-4">${buscador()}</div><div class="table-responsive"><table class="table align-middle"><thead><tr><th>Colaborador</th><th>Fechas</th><th>Estado</th><th>Nueva fecha de emisión</th></tr></thead><tbody>
+ ${L.map(({c,e})=>`<tr class="${e.c=='rojo'?'fila-rojo':e.c=='amb'?'fila-amb':''}"><td><b>${h(nom(c))}</b><br><small class="text-muted">${h(c.cargo)}</small></td>
+ <td><small class="text-muted">Emisión</small> ${S.car[c.id]?fmtF(S.car[c.id].em):'-'}<br><small class="text-muted">Vence</small> ${e.v?fmtF(e.v):'-'}</td><td>${bd(e.c,e.t)}</td>
+ <td><div class="d-flex gap-2" style="min-width:270px"><input type="date" class="form-control" id="d_${c.id}" value="${hoy()}">
+ <button class="btn btn-pj text-nowrap" title="${S.car[c.id]&&S.car[c.id].hist.length?'Emisiones anteriores: '+S.car[c.id].hist.map(fmtF).join(', '):''}" onclick="renovar('${c.id}')">${S.car[c.id]?'Renovar':'Registrar'}</button></div></td></tr>`).join('')||'<tr><td colspan="4" class="text-muted">No hay colaboradores activos.</td></tr>'}
  </tbody></table></div>
- <div class="mt-2"><small class="text-muted">${bd('rojo','Rojo')} vencido o hasta 7 días &nbsp; ${bd('amb','Ámbar')} de 8 a 14 días &nbsp; ${bd('verde','Verde')} vigente. Fecha de hoy: ${fmtF(hoy())}</small></div></div>`}
+ <div class="mt-3"><small class="text-muted">${bd('rojo','Rojo')} vencido o hasta 7 días &nbsp; ${bd('amb','Ámbar')} de 8 a 14 días &nbsp; ${bd('verde','Verde')} vigente. Fecha de hoy: ${fmtF(hoy())}</small></div></div>`}
 
 function vEnt(){
  const tabs=`<div class="d-flex gap-2 mb-3"><button class="btn ${ME=='gen'?'btn-pj':'btn-outline-secondary'}" onclick="ME='gen';render()">${ic('table')} Vista general</button><button class="btn ${ME=='ind'?'btn-pj':'btn-outline-secondary'}" onclick="ME='ind';render()">${ic('person-check')} Ficha individual</button></div>`;
- const col=i=>i>=100?'verde':i>0?'amb':'gris';
- if(ME=='gen')return tabs+`<div class="cardx"><div class="mb-3">${buscador()}</div><div class="table-responsive"><table class="table align-middle"><thead><tr><th>Colaborador</th><th style="width:140px">Servicio</th><th style="width:140px">Producción</th><th>Detalle por módulo</th></tr></thead><tbody>
- ${act().filter(pasa).map(c=>`<tr><td><b>${h(nom(c))}</b><br><small class="text-muted">${h(c.cargo)}</small></td><td>${pa(c.id,'Servicio')}%${bar(pa(c.id,'Servicio'))}</td><td>${pa(c.id,'Producción')}%${bar(pa(c.id,'Producción'))}</td>
- <td>${TR.map((b,i)=>bd(col(pb(c.id,i)),h(b.b)+' '+pb(c.id,i)+'%')).join('')}</td></tr>`).join('')||'<tr><td colspan="4" class="text-muted">Sin colaboradores.</td></tr>'}</tbody></table></div></div>`;
+ const col=p=>p>=100?'verde':p>0?'amb':'gris',AR=areas();
+ if(ME=='gen')return tabs+`<div class="cardx"><div class="mb-3">${buscador()}</div><div class="table-responsive"><table class="table align-middle"><thead><tr><th>Colaborador</th>${AR.map(a=>`<th>${h(a)}</th>`).join('')}</tr></thead><tbody>
+ ${act().filter(pasa).map(c=>`<tr><td style="min-width:150px"><b>${h(nom(c))}</b><br><small class="text-muted">${h(c.cargo)}</small></td>
+ ${AR.map(a=>`<td style="min-width:240px"><b>${pa(c.id,a)}%</b>${bar(pa(c.id,a))}<div class="mt-1">${S.ruta.filter(m=>m.a==a).map(m=>`<button class="b ${col(pm(c.id,m))}" style="border:0;cursor:pointer" title="Abrir ficha" onclick="verFicha('${c.id}','${m.id}')">${h(m.b)} ${pm(c.id,m)}%</button>`).join('')}</div></td>`).join('')}</tr>`).join('')||`<tr><td colspan="${AR.length+1}" class="text-muted">Sin colaboradores.</td></tr>`}</tbody></table></div>
+ <small class="text-muted">Toca un módulo para abrir la ficha de esa persona. Verde: completo, ámbar: parcial, gris: sin empezar.</small></div>`;
  const L=act().filter(pasa).sort((x,y)=>nom(x).localeCompare(nom(y))),c=L.find(x=>x.id==SELE)||L[0];
  return tabs+`<div class="cardx"><div class="d-flex flex-wrap gap-2 mb-3">${buscador()}<select class="form-select" style="max-width:320px" onchange="SELE=this.value;render()">${L.map(x=>`<option value="${x.id}" ${c&&x.id==c.id?'selected':''}>${h(nom(x))}</option>`).join('')}</select></div>
- ${c?`<div class="row g-3 mb-2"><div class="col-md-6"><b>Servicio ${pa(c.id,'Servicio')}%</b>${bar(pa(c.id,'Servicio'))}</div><div class="col-md-6"><b>Producción ${pa(c.id,'Producción')}%</b>${bar(pa(c.id,'Producción'))}</div></div>
- ${TR.map((b,i)=>`<details ${OP.has('b'+i)?'open':''} ontoggle="op(this,'b${i}')"><summary>${b.a} - ${h(b.b)} (${pb(c.id,i)}%)</summary>
- ${b.t.map((t,j)=>`<div class="form-check"><input class="form-check-input" type="checkbox" id="e${i}_${j}" ${(S.ent[c.id]||{})[i+'.'+j]?'checked':''} onchange="tgE('${c.id}','${i}.${j}')"><label class="form-check-label" for="e${i}_${j}">${h(t)}</label></div>`).join('')}
- <div class="mt-2"><button class="btn btn-sm btn-pj" onclick="mkB('${c.id}',${i},1)">Marcar todo</button> <button class="btn btn-sm btn-outline-secondary" onclick="mkB('${c.id}',${i},0)">Quitar todo</button></div></details>`).join('')}`:'<span class="text-muted">Agrega colaboradores primero.</span>'}</div>`}
+ ${c?AR.map(a=>`<h6 class="mt-3 mb-1">${h(a)} ${pa(c.id,a)}%</h6>${bar(pa(c.id,a))}`+S.ruta.filter(m=>m.a==a).map(m=>`<details ${OP.has('b'+m.id)?'open':''} ontoggle="op(this,'b${m.id}')"><summary>${h(m.b)} (${pm(c.id,m)}%)</summary>
+ ${m.t.map(t=>`<div class="form-check"><input class="form-check-input" type="checkbox" id="e${t.id}" ${(S.ent[c.id]||{})[t.id]?'checked':''} onchange="tgE('${c.id}','${t.id}')"><label class="form-check-label" for="e${t.id}">${h(t.n)}</label></div>`).join('')}
+ <div class="mt-2"><button class="btn btn-sm btn-pj" onclick="mkB('${c.id}','${m.id}',1)">Marcar todo</button> <button class="btn btn-sm btn-outline-secondary" onclick="mkB('${c.id}','${m.id}',0)">Quitar todo</button></div></details>`).join('')).join(''):'<span class="text-muted">Agrega colaboradores primero.</span>'}</div>`}
 
 function vPtt(){
  const b=(k,i,t)=>`<button class="btn ${M==k?'btn-pj':'btn-outline-secondary'}" onclick="M='${k}';render()">${ic(i)} ${t}</button>`;
- return `<div class="d-flex flex-wrap gap-2 mb-3">${b('rep','bar-chart-line','Reporte de la tienda')}${b('col','check2-square','Marcar por colaborador')}${b('gest','gear','Gestionar escuelas y cursos')}</div>`+(M=='rep'?pRep():M=='col'?pCol():pGest())}
+ return `<div class="d-flex flex-wrap align-items-center gap-2 mb-3">${b('rep','bar-chart-line','Reporte de la tienda')}${b('col','check2-square','Marcar por colaborador')}
+ <small class="ms-auto text-muted">Para editar escuelas y cursos ve a <a href="#" onclick="MC='ptt';ir('cfg');return false">Configuración</a></small></div>`+(M=='col'?pCol():pRep())}
 
 function pRep(){
  const pop=poblacion(true),g=pctTot(pop);
  return `<div class="cardx mb-3"><div class="d-flex flex-wrap gap-2 align-items-center mb-2">${buscador()}
- <select class="form-select" style="max-width:210px" onchange="FC=this.value;render()"><option value="">Todos los cargos</option>${CARGOS.map(c=>`<option ${FC==c?'selected':''}>${c}</option>`).join('')}</select>
+ <select class="form-select" style="max-width:210px" onchange="FC=this.value;render()"><option value="">Todos los cargos</option>${CARGOS.filter(c=>!EXCL.includes(c)).map(c=>`<option ${FC==c?'selected':''}>${c}</option>`).join('')}</select>
  <select class="form-select" style="max-width:170px" onchange="FT=this.value;render()"><option value="">Toda jornada</option><option ${FT=='Full Time'?'selected':''}>Full Time</option><option ${FT=='Part Time'?'selected':''}>Part Time</option></select>
  <div class="form-check"><input class="form-check-input" type="checkbox" id="fp" ${FP?'checked':''} onchange="FP=this.checked;render()"><label class="form-check-label" for="fp">Solo con cursos pendientes</label></div><div class="ms-auto d-flex gap-2"><button class="btn btn-outline-secondary" onclick="imprimirPendTodos()">${ic('printer')} Imprimir pendientes</button><button class="btn btn-pj" onclick="bajarPendTodos()">${ic('file-earmark-excel')} Excel de pendientes</button></div></div>
- <small class="text-muted">Solo cuentan Team Member, Experto, Master Trainer y Líder; Asistentes y Gerentes se excluyen automáticamente. Colaboradores en el reporte: ${pop.length}</small>
+ <small class="text-muted">En el reporte entran todos los cargos, incluidos Asistentes y Gerentes. Colaboradores en el reporte: ${pop.length}</small>
  <div class="d-flex align-items-center gap-3 mt-2"><div style="font-size:28px;font-weight:700">${g.p}%</div><div style="flex:1">${bar(g.p)}</div></div></div>`+S.esc.map(e=>{
   const r=pctEsc(e,pop),el=pop.filter(c=>AP[e.ap].includes(c.cargo));
   return `<details ${OP.has(e.id)?'open':''} ontoggle="op(this,'${e.id}')"><summary>${h(e.n)} <span class="ms-2">${bd(r.p>=100?'verde':r.p>0?'amb':'gris',r.p+'%')}</span> ${bd('azul',APN[e.ap])}
@@ -302,7 +318,7 @@ function pGest(){
  return `<div class="cardx mb-3 d-flex flex-wrap align-items-center gap-2"><div><b>Gestión de escuelas y cursos</b><div><small class="text-muted">Aquí se crea, edita y elimina. El reporte queda solo para consultar.</small></div></div>
  <button class="btn btn-pj ms-auto" onclick="nuevaEsc()">${ic('plus-lg')} Nueva escuela</button></div>`+S.esc.map(e=>`<details ${OP.has('g'+e.id)?'open':''} ontoggle="op(this,'g${e.id}')"><summary>${h(e.n)} <small class="text-muted">${e.cur.length} cursos</small> ${bd('azul',APN[e.ap])}</summary>
   <div class="mb-2"><button class="btn btn-sm btn-outline-secondary" onclick="editEsc('${e.id}')">${ic('pencil')} Editar escuela</button> <button class="btn btn-sm btn-outline-danger" onclick="delEsc('${e.id}')">${ic('trash')} Eliminar escuela</button></div>
-  ${e.cur.map(k=>`<div class="li"><span>${h(k.n)}</span><span class="text-nowrap"><button class="btn btn-sm btn-outline-secondary" title="Editar curso" onclick="editCur('${e.id}','${k.id}')">${ic('pencil')}</button> <button class="btn btn-sm btn-outline-danger" title="Eliminar curso" onclick="delCur('${e.id}','${k.id}')">${ic('trash')}</button></span></div>`).join('')||'<small class="text-muted">Sin cursos todavía.</small>'}
+  ${e.cur.map(k=>`<div class="li"><span>${h(k.n)}</span>${menu([{t:'Editar',i:'pencil',f:`editCur('${e.id}','${k.id}')`},{t:'Eliminar',i:'trash',r:1,f:`delCur('${e.id}','${k.id}')`}])}</div>`).join('')||'<small class="text-muted">Sin cursos todavía.</small>'}
   <button class="btn btn-sm btn-pj mt-2" onclick="addCur('${e.id}')">${ic('plus-lg')} Agregar curso</button></details>`).join('')}
 
 function pCol(){
@@ -352,7 +368,7 @@ function renovar(id){
  const o=S.car[id];S.car[id]={em:f,hist:o?[o.em,...o.hist]:[]};go();
  toast('Carnet actualizado. Vence el '+fmtF(suma6(f)))}
 function tgE(id,k){S.ent[id]=S.ent[id]||{};S.ent[id][k]=!S.ent[id][k];go()}
-function mkB(id,i,v){S.ent[id]=S.ent[id]||{};TR[i].t.forEach((_,j)=>S.ent[id][i+'.'+j]=v?1:0);go()}
+function mkB(id,mid,v){S.ent[id]=S.ent[id]||{};S.ruta.find(m=>m.id==mid).t.forEach(x=>S.ent[id][x.id]=v?1:0);go()}
 function mk(id,k){S.ptt[id]=S.ptt[id]||{};S.ptt[id][k]=1;go();toast('Curso marcado como completado')}
 function tgP(id,k){S.ptt[id]=S.ptt[id]||{};S.ptt[id][k]=!S.ptt[id][k];go()}
 async function cEsc(id,eid,v){
@@ -463,6 +479,52 @@ function imprimirPendTodos(){
  </body></html>`);
  w.document.close();w.focus();setTimeout(()=>w.print(),400)}
 
+// ===== Configuración (todo lo que edita o borra vive aquí) =====
+let MC='ptt';
+function vCfg(){
+ const b=(k,i,t)=>`<button class="btn ${MC==k?'btn-pj':'btn-outline-secondary'}" onclick="MC='${k}';render()">${ic(i)} ${t}</button>`;
+ return `<div class="d-flex flex-wrap gap-2 mb-3">${b('ptt','journal-check','Escuelas y cursos PTT')}${b('ruta','signpost-split','Ruta de entrenamiento')}${b('resp','shield-check','Respaldo')}</div>`+(MC=='ptt'?pGest():MC=='ruta'?pRuta():pResp())}
+function pRuta(){
+ return `<div class="cardx mb-3 d-flex flex-wrap align-items-center gap-2"><div><b>Ruta de entrenamiento</b><div><small class="text-muted">Áreas, módulos y temas. Al editar o borrar un tema, las marcas de los demás se conservan.</small></div></div>
+ <button class="btn btn-pj ms-auto" onclick="nuevoMod()">${ic('plus-lg')} Nuevo módulo</button></div>`+
+ areas().map((a,i)=>`<div class="d-flex align-items-center gap-2 mt-3"><h6 class="mb-0">${h(a)}</h6><button class="btn btn-sm btn-outline-secondary" onclick="renArea(${i})">${ic('pencil')} Renombrar área</button></div>`
+ +S.ruta.filter(m=>m.a==a).map(m=>`<details ${OP.has('r'+m.id)?'open':''} ontoggle="op(this,'r${m.id}')"><summary>${h(m.b)} <small class="text-muted">${m.t.length} temas</small></summary>
+  <div class="mb-2"><button class="btn btn-sm btn-outline-secondary" onclick="editMod('${m.id}')">${ic('pencil')} Editar módulo</button> <button class="btn btn-sm btn-outline-danger" onclick="delMod('${m.id}')">${ic('trash')} Eliminar módulo</button></div>
+  ${m.t.map(t=>`<div class="li"><span>${h(t.n)}</span>${menu([{t:'Editar',i:'pencil',f:`editTema('${m.id}','${t.id}')`},{t:'Eliminar',i:'trash',r:1,f:`delTema('${m.id}','${t.id}')`}])}</div>`).join('')||'<small class="text-muted">Sin temas todavía.</small>'}
+  <button class="btn btn-sm btn-pj mt-2" onclick="addTema('${m.id}')">${ic('plus-lg')} Agregar tema</button></details>`).join('')).join('')}
+function pResp(){
+ const dr=S.resp?Math.round((pd(hoy())-pd(S.resp))/864e5):null;
+ return `<div class="cardx"><h6>Respaldo de datos</h6><p>${dr===null?'Todavía no descargas ningún respaldo.':'Último respaldo: '+fmtF(S.resp)+' (hace '+dr+' días).'}</p>
+ <div class="d-flex gap-2"><button class="btn btn-pj" onclick="bajar()">${ic('download')} Descargar respaldo</button><button class="btn btn-outline-secondary" onclick="$('#fi').click()">${ic('upload')} Restaurar respaldo</button></div>
+ <small class="text-muted d-block mt-3">Los datos se guardan solos en este navegador. El respaldo es la copia de seguridad. Incluye DNI y passwords PTT: guárdalo en un lugar seguro.</small></div>`}
+function verFicha(cid,mid){ME='ind';SELE=cid;Q='';OP.add('b'+mid);render()}
+const htmlMod=(b,a)=>`<input id="mn" class="swal2-input" placeholder="Nombre del módulo" value="${h(b)}"><input id="ma" class="swal2-input" list="la" placeholder="Área (ej. Servicio)" value="${h(a)}"><datalist id="la">${areas().map(x=>`<option value="${h(x)}">`).join('')}</datalist>`;
+const valMod=()=>{const b=$('#mn').value.trim(),a=$('#ma').value.trim();if(!b||!a){Swal.showValidationMessage('Escribe el nombre y el área');return false}return{b,a}};
+async function nuevoMod(){
+ const r=await Swal.fire({title:'Nuevo módulo',html:htmlMod('',''),preConfirm:valMod,showCancelButton:true,confirmButtonText:'Crear',cancelButtonText:'Cancelar',confirmButtonColor:VERDE});
+ if(r.isConfirmed){S.ruta.push({id:uid(),a:r.value.a,b:r.value.b,t:[]});go();toast('Módulo creado')}}
+async function editMod(mid){
+ const m=S.ruta.find(x=>x.id==mid);
+ const r=await Swal.fire({title:'Editar módulo',html:htmlMod(m.b,m.a),preConfirm:valMod,showCancelButton:true,confirmButtonText:'Guardar',cancelButtonText:'Cancelar',confirmButtonColor:VERDE});
+ if(r.isConfirmed){m.b=r.value.b;m.a=r.value.a;go();toast('Módulo actualizado')}}
+async function delMod(mid){
+ if(!await conf('Eliminar módulo','Se eliminará con todos sus temas y el avance registrado.'))return;
+ S.ruta=S.ruta.filter(m=>m.id!=mid);go();toast('Módulo eliminado')}
+async function renArea(i){
+ const a=areas()[i];
+ const r=await Swal.fire({title:'Renombrar área',input:'text',inputValue:a,showCancelButton:true,confirmButtonText:'Guardar',cancelButtonText:'Cancelar',confirmButtonColor:VERDE,inputValidator:v=>!v.trim()&&'Escribe el nombre del área'});
+ if(r.isConfirmed){S.ruta.forEach(m=>{if(m.a==a)m.a=r.value.trim()});go();toast('Área actualizada')}}
+async function addTema(mid){
+ const r=await Swal.fire({title:'Nuevo tema',input:'text',inputPlaceholder:'Nombre del tema',showCancelButton:true,confirmButtonText:'Agregar',cancelButtonText:'Cancelar',confirmButtonColor:VERDE,inputValidator:v=>!v.trim()&&'Escribe el nombre del tema'});
+ if(r.isConfirmed){S.ruta.find(m=>m.id==mid).t.push({id:uid(),n:r.value.trim()});go();toast('Tema agregado')}}
+async function editTema(mid,tid){
+ const t=S.ruta.find(m=>m.id==mid).t.find(x=>x.id==tid);
+ const r=await Swal.fire({title:'Editar tema',input:'text',inputValue:t.n,showCancelButton:true,confirmButtonText:'Guardar',cancelButtonText:'Cancelar',confirmButtonColor:VERDE,inputValidator:v=>!v.trim()&&'Escribe el nombre del tema'});
+ if(r.isConfirmed){t.n=r.value.trim();go();toast('Tema actualizado')}}
+async function delTema(mid,tid){
+ if(!await conf('Eliminar tema','Se quitará el tema y su avance registrado.'))return;
+ const m=S.ruta.find(x=>x.id==mid);m.t=m.t.filter(t=>t.id!=tid);go();toast('Tema eliminado')}
+
 // ===== Respaldo =====
 function bajar(){
  S.resp=hoy();save();
@@ -471,7 +533,7 @@ function bajar(){
 function subir(i){
  const f=i.files[0];if(!f)return;const r=new FileReader();
  r.onload=async()=>{try{const d=JSON.parse(r.result);if(!d.col||!d.esc)throw 0;
-  if(await conf('Restaurar respaldo','Esto reemplaza los datos actuales.')){S=d;go();toast('Respaldo restaurado')}}
+  if(await conf('Restaurar respaldo','Esto reemplaza los datos actuales.')){S=d;iniRuta();go();toast('Respaldo restaurado')}}
   catch(e){aviso('Archivo no válido','El archivo no es un respaldo de este sistema.')}i.value=''};
  r.readAsText(f)}
 
@@ -479,6 +541,6 @@ function subir(i){
 $('#f_car').innerHTML=CARGOS.map(c=>`<option>${c}</option>`).join('');
 $('#f_dia').innerHTML='<option value="">Día</option>'+Array.from({length:31},(_,i)=>`<option value="${i+1}">${i+1}</option>`).join('');
 $('#f_mes').innerHTML='<option value="">Mes</option>'+MESES.map((m,i)=>`<option value="${i+1}">${m}</option>`).join('');
-save();render();
+iniRuta();save();render();
 </script></body></html>
 
